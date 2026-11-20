@@ -1,0 +1,4567 @@
+{
+  "version": "0.99.2807",
+  "webxr": {    
+    "vrEnabled": false,
+    "arEnabled": false
+  },
+  "general": {
+    "loadingpathXR": "",
+    "backgroundColor": [0.1, 0.1, 0.15],
+    "title": "EV Installation",
+    "description": "<div class='text-center'><p>EV Installation</p></div>",
+    "tracking": {
+      "startTimeStamp": null,
+      "completedSessions": []      
+    },
+    "hotspotTerminology": "hotspot",
+    "environmentLighting": {
+      "enabled": true,
+      "preset": "neutral-studio",
+      "intensity": 0.8,
+      "rotationY": 0
+    },
+    "showSplash": false,
+    "ui": {
+      "hotspotLabel2D": {
+        "frameBorderHex": "#cbd5e180",
+        "frameBackgroundHex": "#ffffffe6",
+        "textColorHex": "#1e293b"
+      },
+      "persistSelectedGlowOutline": {
+        "colorAHex": "#00FFB0",
+        "colorBHex": "#00FFB0",
+        "blurHMin": 1,
+        "blurHMax": 3,
+        "blurVMin": 1,
+        "blurVMax": 3,
+        "pulseEnabled": true,
+        "pulsePeriodSec": 5,
+        "intensity": 1,
+        "materialAlpha": 0.1
+      },
+      "persistSelectedGlowPulseEnabled": false,
+      "hud": {
+        "leaveSessionButton": false,
+        "fullscreenToggle": true,
+        "vrToggle": false,
+        "progressDrawer": false
+      }
+    }
+  },
+  "initialScene": "scene-05",
+  "scenes": [  
+    {
+      "scene": {
+        "id": "scene-02",
+        "type": "3d-viewer",
+        "image": "./assets/experiences/ev-installation/shared/360/viewer-gradient.png",
+        "preview": "",
+        "title": "3D Viewer - DC Fast Charger",
+        "description": "<p><b>FP60 Commercial EV DC Charger 60kW</b></p><details><summary>More details...</summary><p><ul><li>7-inch panel: Displays real-time charging status (time, voltage, etc.).</li><li>Flexible installation: Modular design, indoor/outdoor use, IP54 protection.</li><li>Smart charging: Dual/multiple outputs, load adjustment/sharing for max efficiency.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>User-friendly: Easy setup, app/IC card payment, works with all market EVs.</li></ul></p></details>",
+        "customScript": "generic-3d-viewer",
+        "sceneNote": {
+          "title": "Disclaimer",
+          "body": "<p>Please make sure to seek out and read the current official user and installation guides for your relevant EV charger model before attempting operation in a real world setting. The manufacturer of this product and/or courseware are not liable for any damages or injuries resulting from the use of this product and/or courseware.</p><p>Always consult with a licensed contractor/electrician or trained installation expert when operating these products.</p><BR><p><i>Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission.</i></p>",
+          "side": "right",
+          "openOnEnter": true
+        },
+        "plugins": 
+        [
+          "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
+          "hotspotNavigator",
+          { "name": "dimensions", "config": { "showHudButton": true } },
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 0.12,
+                "minFactor": 0.75,
+                "maxFactor": 5
+              }
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Select the hotspots to explore the charger components and features.</p>"
+            }
+          }
+        ],
+        "attribution": [
+          "\"Male Low Poly Human Body\" (https://skfb.ly/6ZNwQ) by 5$toPolyMan is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/)",
+          "Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission."
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": -0.2518,
+        "beta": 1.2664,
+        "radius": 3.13,
+        "fov": 0.9,
+        "target": [0, 0.82, 0],
+        "lowerRadiusLimit": 0.6,
+        "upperRadiusLimit": 4,
+        "lowerAlphaLimit": -12,
+        "upperAlphaLimit": 12,
+        "lowerBetaLimit": 0.2,
+        "upperBetaLimit": 1.75,
+        "allowPanning": true,
+        "panningDistanceLimit": 3.5,
+        "defaultFocusRadius": 2.5,
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": true,
+        "useAutoRotationBehaviorAtResetOnly": true,
+        "idleRotationSpeed": 0.0125,
+        "idleRotationWaitTime": 3000,
+        "idleRotationSpinupTime": 2000
+      },
+      "models": [
+        {
+          "id": "dc-charger",
+          "path": "./assets/experiences/ev-installation/scene02/3D/dc-charger-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 90, 0],
+          "scale": [1, 1, 1]
+        },     
+        {
+          "id": "platform",
+          "path": "./assets/experiences/ev-installation/shared/3D/platform.glb",
+          "position": [0, -0.01, 0],
+          "rotation": [0, 90, 0],
+          "scale": [1, 1, 1]
+        }            
+      ],
+      "referenceModels": [
+        {
+          "id": "human",
+          "model": {
+            "path": "./assets/core/3D/reference/human-reference.glb",
+            "position": [0, 0, -1.8],
+            "rotation": [0, 90, 0],
+            "scale": [1, 1, 1],
+            "materialAlpha": 0.05
+          },
+          "visibleByDefault": false,
+          "cameraView": {
+            "target": [-0.24, 0.84, -1.12],
+            "alpha": -0.3908,
+            "beta": 1.2767,
+            "radius": 3.5,
+            "durationMs": 1000,
+            "lowerAlphaLimit": -3,
+            "upperAlphaLimit": 3,
+            "lowerBetaLimit": 0.2,
+            "upperBetaLimit": 1.75,
+            "allowPanning": true,
+            "panningDistanceLimit": 0.4
+          },
+          "dimensions": {
+            "offset": [0, 0, 0],
+            "layout": {
+              "vertical": "bottom",
+              "horizontal": "right",
+              "depth": "back"
+            },
+            "axes": {
+              "y": {
+                "enabled": true,
+                "length": 1.7,
+                "label": "1.7 m  |  5'7\"",
+                "offset": [
+                  -0.5,
+                  0,
+                  0
+                ],
+                "labelOrientation": "vertical",
+                "labelOffset": [
+                  0,
+                  0,
+                  0.01
+                ],
+                "direction": 1
+              }
+            },
+            "style": {
+              "lineColorHex": "#49dff3",
+              "lineRadius": 0.003,
+              "arrowSize": 0.04,
+              "tickSize": 0.8,
+              "tickStyle": "dashed",
+              "tickAlign": "end",
+              "tickRadius": 0.002,
+              "label": {
+                "frameBackgroundHex": "#ffffffe6",
+                "frameBorderHex": "#cbd5e180",
+                "textColorHex": "#1e293b",
+                "fontSizePx": 64
+              }
+            }
+          }
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "charger-overall",
+          "target": {
+            "modelId": "dc-charger"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "back"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.7,
+              "label": "700 mm",
+              "offset": [
+                -0.35,
+                0,
+                0.25
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "y": {
+              "enabled": true,
+              "length": 1.75,
+              "label": "1750 mm",
+              "offset": [
+                0.7,
+                0,
+                -0.003
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.15,
+                0,
+                0
+              ]
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.24,
+              "label": "240 mm",
+              "offset": [
+                -0.5,
+                0,
+                0.12
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffffff",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.1,
+            "tickStyle": "dashed",
+            "tickAlign": "center",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#cbd5e180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 64
+            }
+          }
+        }
+      ],
+      "annotations": [
+        {
+          "id": "charger-status-indicator",
+          "target": {
+            "modelId": "dc-charger",
+            "position": [
+              0.123,
+              1.578,
+              0.068
+            ]
+          },
+          "label": {
+            "text": "Charger status indicator",
+            "lineAnchor": "center-right",
+            "offset": [
+              0.2,
+              -0.1,
+              -0.15
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-01_dc-charger"
+          }
+        },        
+        {
+          "id": "door-lock",
+          "target": {
+            "modelId": "dc-charger",
+            "position": [
+              0.126,
+              0.9,
+              -0.267
+            ]
+          },
+          "label": {
+            "text": "Door lock",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              0,
+              0.05
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-05_doorlock"
+          }
+        },
+          {
+            "id": "side-panel-[module-b]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                -0.071,
+                1.195,
+                -0.315
+              ]
+            },
+            "label": {
+              "text": "Side B module",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                -0.05,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-04_moduleslots"
+            }
+          },
+          {
+            "id": "side-panel-[module-a]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                -0.072,
+                1.524,
+                -0.315
+              ]
+            },
+            "label": {
+              "text": "Side A module",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                -0.05,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-04_moduleslots"
+            }
+          },
+          {
+            "id": "lcd-rfid-[lcd]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.123,
+                1.438,
+                0.061
+              ]
+            },
+            "label": {
+              "text": "LCD touch panel",
+              "lineAnchor": "bottom-right",
+              "offset": [
+                0.01,
+                0,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-03_LCDRFID"
+            }
+          },
+          {
+            "id": "lcd-rfid-[rfid]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.125,
+                1.34,
+                0.107
+              ]
+            },
+            "label": {
+              "text": "RFID chip",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                -0.05,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-03_LCDRFID"
+            }
+          },
+          {
+            "id": "charging-cable",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.086,
+                0.487,
+                0.459
+              ]
+            },
+            "label": {
+              "text": "Charging Cable",
+              "lineAnchor": "center",
+              "offset": [
+                -0.1,
+                0.1,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-02_chargingcable"
+            }
+          }
+        ],
+      "hotspots": [
+        {
+          "id": "hotspot-02-01_dc-charger",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Charger status",
+            "position": "middle-right",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "1. Charger status indicator",
+          "description": "Charger status indicator shows the status of both the A' and 'B' side charging ports.",
+          "position": [0.273, 1.531, 0.405], 
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.4, 1.62, 0.23],
+            "alpha": 0.2870,
+            "beta": 1.2330,
+            "radius": 0.2132,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-02-02_chargingcable",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Charging Cable",
+            "position": "middle-right",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "2. Charging Cable",
+          "description": "The Charging connector holder and charging cable. The compatible plug used is 'CCS2'.",
+          "position": [0.223, 0.51, 0.501],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.13, 0.4, 0.33],
+            "alpha": 0.5103,
+            "beta": 1.3490,
+            "radius": 0.8066,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-02-03_LCDRFID",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "LCD & RFID",
+            "position": "middle-right",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "3. LCD Panel & RFID Chip",
+          "description": "The LCD touch panel, customer usage instructions and the place to tap your RFID card to enable charging.",
+          "position": [0.236, 1.352, -0.041],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.24, 1.46, 0.07],
+            "alpha": -0.4600,
+            "beta": 1.4000,
+            "radius": 0.3000,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-02-04_moduleslots",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Module slots",
+            "position": "middle-left",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "4. Side panel and module slots",
+          "description": "Open the side panel to the side A and side B module slots. Both side panels of the unit can be opened. Please use the included panel key to unlock.",
+          "position": [0.212, 1.483, -0.482],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.15, 1.21, 0.14],
+            "alpha": -1.2690,
+            "beta": 1.2479,
+            "radius": 1.9999,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          },
+          "animation": {
+            "trigger": "click",
+            "behavior": "dialogLinked",
+            "targets": [
+              {
+                "nodeName": "VentLouvers_R_Lower.002",
+                "file": "./assets/experiences/ev-installation/scene02/animations/door-open-animation.json"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hotspot-02-05_doorlock",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Door lock",
+            "position": "middle-left",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "5. Door lock",
+          "description": "The door lock is used to secure the charger when not in use. It is also used to prevent unauthorized access to the charger.",
+          "position": [0.241, 1.001, -0.462],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.43, 0.54, 0.04],
+            "alpha": -0.5159,
+            "beta": 1.0801,
+            "radius": 1.3,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        }
+      ]
+    },
+    {
+      "scene": {
+        "id": "scene-03",
+        "type": "3d-viewer",
+        "image": "./assets/experiences/ev-installation/shared/360/viewer-gradient.png",
+        "preview": "",
+        "title": "3D Viewer - AC Commercial Charger",
+        "description": "<p><b>T-Power AQ7/22 Home Solar Smart EV Charger</b></p><details><summary>More details...</summary><p><ul><li>Prioritizes renewables with Eco/Eco+/Fast modes.</li><li>App for remote scheduling/tracking.</li><li>4.3-inch LCD, LED indicators, motion display.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>Ethernet/Wi-Fi/4G/Bluetooth, OCPP & safety for sustainable charging.</li></ul></p></details>",
+        "customScript": "generic-3d-viewer",
+        "sceneNote": {
+          "title": "Disclaimer",
+          "body": "<p>Please make sure to seek out and read the current official user and installation guides for your relevant EV charger model before attempting operation in a real world setting. The manufacturer of this product and/or courseware are not liable for any damages or injuries resulting from the use of this product and/or courseware.</p><p>Always consult with a licensed contractor/electrician or trained installation expert when operating these products.</p><BR><p><i>Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission.</i></p>",
+          "side": "right",
+          "openOnEnter": true
+        },
+        "plugins":
+        [
+          "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
+          "hotspotNavigator",
+          { "name": "dimensions", "config": { "showHudButton": true } },
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 0.12,
+                "minFactor": 0.35,
+                "maxFactor": 5
+              }
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Use annotations and hotspots to learn about the AC charger.</p>"
+            }
+          }
+        ],
+        "attribution": [
+          "\"Male Low Poly Human Body\" (https://skfb.ly/6ZNwQ) by 5$toPolyMan is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/)",
+          "Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission."
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": -0.2518,
+        "beta": 1.2664,
+        "radius": 1.9,
+        "fov": 0.9,
+        "target": [0, 0.62, 0],
+        "lowerRadiusLimit": 0.5,
+        "upperRadiusLimit": 4,
+        "lowerAlphaLimit": -2000,
+        "upperAlphaLimit": 2000,
+        "lowerBetaLimit": 0.1,
+        "upperBetaLimit": 1.55,
+        "allowPanning": true,
+        "defaultFocusRadius": 2.5,
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": true,
+        "useAutoRotationBehaviorAtResetOnly": true,
+        "idleRotationSpeed": 0.02,
+        "idleRotationWaitTime": 3000,
+        "idleRotationSpinupTime": 2000
+      },
+      "models": [
+        {
+          "id": "ac-charger",
+          "path": "./assets/experiences/ev-installation/scene-03/3D/ac-charger-final.glb",
+          "position": [0, -0.1, 0],
+          "rotation": [0, 90, 0],
+          "scale": [1, 1, 1]
+        },     
+        {
+          "id": "platform",
+          "path": "./assets/experiences/ev-installation/shared/3D/platform.glb",
+          "position": [0, -0.01, 0],
+          "rotation": [0, 90, 0],
+          "scale": [1, 1, 1]
+        }            
+      ],
+      "referenceModels": [
+        {
+          "id": "human",
+          "model": {
+            "path": "./assets/core/3D/reference/human-reference.glb",
+            "position": [0, -0.1,-1.2],
+            "rotation": [0, 90, 0],
+            "scale": [1, 1, 1],
+            "materialAlpha": 0.05
+          },
+          "visibleByDefault": false,
+          "cameraView": {
+            "target": [-0.29, 0.81, -0.56],
+            "alpha": -0.2588,
+            "beta": 1.4623,
+            "radius": 3.0551,
+            "durationMs": 1000
+          },
+          "dimensions": {
+            "offset": [0, 0, 0],
+            "layout": {
+              "vertical": "bottom",
+              "horizontal": "right",
+              "depth": "back"
+            },
+            "axes": {
+              "y": {
+                "enabled": true,
+                "length": 1.7,
+                "label": "1.7 m  |  5'7\"",
+                "offset": [
+                  0.25,
+                  0,
+                  0
+                ],
+                "labelOrientation": "vertical",
+                "labelOffset": [
+                  0,
+                  0,
+                  0.01
+                ],
+                "direction": 1
+              }
+            },
+            "style": {
+              "lineColorHex": "#49dff3",
+              "lineRadius": 0.003,
+              "arrowSize": 0.04,
+              "tickSize": 0.8,
+              "tickStyle": "dashed",
+              "tickAlign": "end",
+              "tickRadius": 0.002,
+              "label": {
+                "frameBackgroundHex": "#ffffffe6",
+                "frameBorderHex": "#cbd5e180",
+                "textColorHex": "#1e293b",
+                "fontSizePx": 64
+              }
+            }
+          }
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "charger-overall",
+          "target": {
+            "modelId": "ac-charger"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.55,
+              "label": "550 mm",
+              "offset": [
+                -0.27,
+                0,
+                0.3
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "y": {
+              "enabled": true,
+              "length": 1.5,
+              "label": "1500 mm",
+              "offset": [
+                0.4,
+                0,
+                -0.003
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.15,
+                0,
+                0
+              ]
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.55,
+              "label": "550 mm",
+              "offset": [
+                -0.3,
+                0,
+                0.27
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ],
+              "direction": -1
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffffff",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.1,
+            "tickStyle": "dashed",
+            "tickAlign": "center",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#cbd5e180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 64
+            }
+          }
+        }
+      ],
+      "annotations": [
+        {
+          "id": "display-controls-[LED indicators]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.225,
+              -0.093
+            ]
+          },
+          "label": {
+            "text": "LED indicators",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              0,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "display-controls-[RFID reader]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.238,
+              -0.052
+            ]
+          },
+          "label": {
+            "text": "RFID reader",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              0.05,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "display-controls-[LCD screen]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.249,
+              0.026
+            ]
+          },
+          "label": {
+            "text": "LCD screen",
+            "lineAnchor": "center",
+            "offset": [
+              0,
+              0.05,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "display-controls-[Touch buttons]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.152,
+              0.032
+            ]
+          },
+          "label": {
+            "text": "Touch buttons",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              -0.05,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "radar-sensor",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.255,
+              0.037
+            ]
+          },
+          "label": {
+            "text": "Radar Sensor",
+            "lineAnchor": "center",
+            "offset": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.002
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffffe6",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-02_radar-sensor"
+          }
+        },
+        {
+          "id": "power-connector",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.08,
+              1.046,
+              -0.055
+            ]
+          },
+          "label": {
+            "text": "Power connector",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              -0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.002
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffffe6",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-03_power-connector"
+          }
+        },
+        {
+          "id": "ac-vehicle-connector",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.111,
+              0.293,
+              -0.123
+            ]
+          },
+          "label": {
+            "text": "Vehicle connector",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              -0.05,
+              0.05
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.002
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffffe6",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-04_vehicle-connector"
+          }
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hotspot-03-01_display-controls",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Display & Controls",
+            "position": "middle-left",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "1. Display & Controls",
+          "description": "The LCD screen shows charging status and session information. LED indicators, the RFID reader, and touch buttons let users authenticate and navigate charger menus.",
+          "position": [0.146, 1.249, -0.152],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.21, 1.06, 0.05],
+            "alpha": -0.2461,
+            "beta": 1.2626,
+            "radius": 0.8062,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-03-02_radar-sensor",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Radar Sensor",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "2. Radar Sensor",
+          "description": "Located aboive the LCD screen, the radar sensor detects vehicles or obstacles near the charger. It supports safe operation and can trigger lighting or presence-aware behavior.",
+          "position": [0.119, 1.318, 0.116],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.09, 1.23, 0.03],
+            "alpha": 0.1742,
+            "beta": 1.1135,
+            "radius": 0.7301,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-03-03_power-connector",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Power Connector",
+            "position": "middle-left",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "3. Power Connector",
+          "description": "The power connector is where utility or site wiring connects to supply the charger. This is the main electrical feed for AC charging.",
+          "position": [0.159, 0.981, -0.164],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.21, 0.98, -0.25],
+            "alpha": -0.9937,
+            "beta": 1.3344,
+            "radius": 0.35,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-03-04_vehicle-connector",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "4. Vehicle Connector",
+            "position": "middle-left",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "Vehicle Connector",
+          "description": "The vehicle connector is the plug that connects to the EV inlet. On this unit it docks in the holster when not in use.",
+          "position": [0.188, 0.216, -0.231],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.11, 0.29, -0.15],
+            "alpha": -0.8091,
+            "beta": 1.2688,
+            "radius": 0.5856,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.2
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        }
+      ]
+    },
+    {
+      "scene": {
+        "id": "scene-05",
+        "type": "3d-viewer",
+        "image": "./assets/experiences/ev-installation/shared/360/viewer-gradient.jpg",
+        "preview": "",
+        "title": "3D SImulation - DC Charger Installation",
+        "description": "",
+        "customScript": "ev-installation-step-content",
+        "plugins": 
+        [
+          "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
+          {
+            "name": "chapterStepsSequencer",
+            "config": {
+              "autoPlayOnLoad": true,
+              "autoPlayChapterWait": false,
+              "autoPlayRegionWait": true,
+              "autoPlayWait": false
+            }
+          },
+          { "name": "dimensions", "config": { "showHudButton": false } },
+          { "name": "annotations", "config": { "showHudButton": false } },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Use the player buttons to control the simulation and the top-left menu to jump to any step. Use orbit, zoom, and pan to inspect the charger as this simulation guides you through the installationprocess.</p>"
+            }
+          }
+        ],
+        "attribution": [
+          "\"Male Low Poly Human Body\" (https://skfb.ly/6ZNwQ) by 5$toPolyMan is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/)",
+          "Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission."
+        ],
+        "tracking": {
+          "visited": false
+        },
+        "meshHighlightSettings": {
+          "glow": { "enabled": true, "color": "#00ffcc", "blurSize": 1.25 },
+          "overlay": { "enabled": true, "color": "#ff8800", "alpha": 0.5, "xray": false }
+        }
+      },
+      "camera": {
+        "alpha": 0.9991,
+        "beta": 1.5037,
+        "radius": 3.0000,
+        "fov": 0.9,
+        "target": [-0.02, 0.97, -0.06],
+        "lowerRadiusLimit": 0.05,
+        "upperRadiusLimit": 3,
+        "lowerAlphaLimit": -20,
+        "upperAlphaLimit": 20,
+        "lowerBetaLimit": 0.5,
+        "upperBetaLimit": 1.8,
+        "allowPanning": true,
+        "panningDistanceLimit": 0.6,
+        "defaultFocusRadius": 3,
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": true,
+        "useAutoRotationBehaviorAtResetOnly": true,
+        "idleRotationSpeed": 0.02,
+        "idleRotationWaitTime": 3000,
+        "idleRotationSpinupTime": 2000
+      },           
+      "models": [        
+        {
+          "id": "10x10-cube",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/10x10-cube.glb",
+          "position": [0, 0.05, 0.5],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },          
+        {
+          "id": "dc-charger",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/dc-charger-installation-final.glb",
+          "position": [0, 0.2, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },          
+        {
+          "id": "dc-charger-outline",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/dc-charger-outline-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },        
+        {
+          "id": "clearance-outline",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/clearance-outline-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "concrete-slab",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/concrete-slab-final.glb",
+          "position": [0, 0.2, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "conduit-pipe",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/conduit-pipe-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "conduit-wiring",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/conduit-wiring-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "foundation-footprint",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/foundation-footprint-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "drilled-ground-holes",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/drilled-ground-holes-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },        
+        {
+          "id": "env",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/env.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "env-cutout",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/env-cutout.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },                   
+        {
+          "id": "wooden-pallet",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wooden-pallet-final.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "crate-box",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/crate-box-final.glb",
+          "position": [0, 0.28, -0.02],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "cr2032-battery",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/cr2032-battery-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-01-alt",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-01-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-02",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-02-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-03",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-03-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-01",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-01-final-alt.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },                
+        {
+          "id": "cabinet-key",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/cabinet-key-final.glb",
+          "position": [1, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },        
+        {
+          "id": "side-key",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/side-key-final.glb",
+          "position": [1, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },          
+        {
+          "id": "screw-driver",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/screwdriver-final.glb",
+          "position": [1.5, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "dynabolts",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/dynabolts-final.glb",
+          "position": [0, 0.2, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "dynabolts-washers-nuts",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/Dynabolts-washers-nuts-final.glb",
+          "position": [0, 0.2, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },        
+        {
+          "id": "hammerdrill",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/hammerdrill-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [10, 90, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wrench",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wrench-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        }                              
+      ],
+      "dimensions": 
+      [
+        {
+          "id": "foundation-footprint-XAxis",
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "center",
+            "depth": "back"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.8,
+              "label": "800 mm",
+              "offset": [
+                -0.4,
+                0,
+                -0.22
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.01,
+                -0.1
+              ],
+              "direction": 1
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.44,
+            "tickStyle": "dashed",
+            "tickAlign": "start",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "foundation-footprint-ZAxis",
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "center",
+            "depth": "back"
+          },
+          "axes": {
+            "z": {
+              "enabled": true,
+              "length": 0.34,
+              "label": "340 mm",
+              "offset": [
+                0.45,
+                0,
+                0.17
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0
+              ],
+              "direction": -1
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.9,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "foundation-footprint-YAxis",
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.34,
+              "label": "340 mm",
+              "offset": [
+                0.45,
+                0,
+                0.17
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": true,
+              "length": 0.5,
+              "label": "500mm",
+              "offset": [
+                0.4,
+                0,
+                0.173
+              ],
+              "labelOrientation": "horizontal",
+              "direction": -1,
+              "labelOffset": [
+                0,
+                0.05,
+                0.1
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0,
+            "tickStyle": "dashed",
+            "tickAlign": "start",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "foundation-height",
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "axes": {
+            "y": {
+              "enabled": true,
+              "length": 0.2,
+              "label": "≥ 200 mm",
+              "offset": [
+                0.45,
+                0,
+                0.17
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0.1
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.84,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "conduit-height",
+          "visibleByDefault": false,
+          "axes": {
+            "y": {
+              "enabled": true,
+              "length": 0.25,
+              "label": "~250 mm",
+              "offset": [
+                0.4,
+                0,
+                0
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0.1
+              ]
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.84,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "clearance-all",
+          "target": {
+            "modelId": "clearance-outline"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 2.4,
+              "label": "2400 mm",
+              "offset": [
+                -1.2,
+                0,
+                0.57
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.79,
+              "label": "790 mm",
+              "offset": [
+                -1.2,
+                0,
+                -0.22
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "y": {
+              "enabled": false,
+              "length": 0.1,
+              "label": "",
+              "offset": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ff0000",
+            "lineRadius": 0.003,
+            "arrowSize": 0.03,
+            "tickSize": 0,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ff000080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48
+            }
+          }
+        },
+        {
+          "id": "bolt-pattern",
+          "target": {
+            "modelId": "concrete-slab"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.3,
+              "label": "300 mm",
+              "offset": [
+                -0.15,
+                0,
+                0.2
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.14,
+              "label": "140 mm",
+              "offset": [
+                0.2,
+                0,
+                0.07
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffffff",
+            "lineRadius": 0.002,
+            "arrowSize": 0.03,
+            "tickSize": 0.05,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#cbd5e180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48
+            }
+          }
+        },
+        {
+          "id": "clearance-outline-front",
+          "target": {
+            "modelId": "clearance-outline"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "z": {
+              "enabled": true,
+              "length": 0.4,
+              "label": "400 mm",
+              "offset": [
+                0,
+                0,
+                0.57
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": false,
+              "length": 0.5,
+              "label": "500mm",
+              "offset": [
+                0.4,
+                0,
+                0.173
+              ],
+              "labelOrientation": "horizontal",
+              "direction": -1,
+              "labelOffset": [
+                0,
+                0.05,
+                0.1
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0,
+            "tickStyle": "dashed",
+            "tickAlign": "start",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "clearance-outline-back",
+          "target": {
+            "modelId": "clearance-outline"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "z": {
+              "enabled": true,
+              "length": 0.05,
+              "label": "50 mm",
+              "offset": [
+                0,
+                0,
+                -0.17
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": false,
+              "length": 0.5,
+              "label": "500mm",
+              "offset": [
+                0.4,
+                0,
+                0.173
+              ],
+              "labelOrientation": "horizontal",
+              "direction": -1,
+              "labelOffset": [
+                0,
+                0.05,
+                0.1
+              ]
+            },
+            "x": {
+              "enabled": false,
+              "length": 0.8,
+              "label": "800 mm",
+              "offset": [
+                0.4,
+                0,
+                0
+              ],
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0,
+            "tickSize": 0.05,
+            "tickStyle": "dashed",
+            "tickAlign": "center",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "clearance-outline-right",
+          "target": {
+            "modelId": "clearance-outline"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.34,
+              "label": "340 mm",
+              "offset": [
+                0.45,
+                0,
+                0.17
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": false,
+              "length": 0.8,
+              "label": "800 mm",
+              "offset": [
+                0.4,
+                0,
+                0.173
+              ],
+              "labelOrientation": "horizontal",
+              "direction": -1,
+              "labelOffset": [
+                0,
+                0.05,
+                0.1
+              ]
+            },
+            "x": {
+              "enabled": true,
+              "length": 0.8,
+              "label": "800 mm",
+              "offset": [
+                0.4,
+                0,
+                0
+              ],
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0,
+            "tickStyle": "dashed",
+            "tickAlign": "start",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "clearance-outline-left",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.34,
+              "label": "340 mm",
+              "offset": [
+                0.45,
+                0,
+                0.17
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": false,
+              "length": 0.8,
+              "label": "800 mm",
+              "offset": [
+                0.4,
+                0,
+                0.173
+              ],
+              "labelOrientation": "horizontal",
+              "direction": -1,
+              "labelOffset": [
+                0,
+                0.05,
+                0.1
+              ]
+            },
+            "x": {
+              "enabled": true,
+              "length": 0.8,
+              "label": "800 mm",
+              "offset": [
+                -1.2,
+                0,
+                0
+              ],
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            }
+          },
+          "target": {
+            "modelId": "clearance-outline"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0,
+            "tickStyle": "dashed",
+            "tickAlign": "start",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "clearance-outline-top",
+          "target": {
+            "modelId": "clearance-outline"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.34,
+              "label": "340 mm",
+              "offset": [
+                0.45,
+                0,
+                0.17
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0.01,
+                0
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": true,
+              "length": 0.15,
+              "label": "150 mm",
+              "offset": [
+                0,
+                2.12,
+                0.12
+              ],
+              "labelOrientation": "vertical",
+              "direction": -1,
+              "labelOffset": [
+                0.05,
+                0,
+                0.1
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.7,
+            "tickStyle": "dashed",
+            "tickAlign": "center",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "p4-drilled-holes-ZAxis-100",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": true,
+              "length": 0.1,
+              "label": "↧ 100 mm",
+              "offset": [
+                0.4,
+                0.201,
+                -0.07
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0,
+                0.05
+              ],
+              "direction": -1
+            },
+            "x": {
+              "enabled": false,
+              "length": 0.25,
+              "label": "↦ 250",
+              "offset": [
+                0.4,
+                0.2,
+                -0.17
+              ],
+              "labelOffset": [
+                0,
+                0.1,
+                0
+              ],
+              "direction": -1,
+              "labelOrientation": "horizontal"
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#00ff00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.02,
+            "tickSize": 0.8,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#00ff0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            }
+          }
+        },
+        {
+          "id": "p4-drilled-holes-XAxis-100",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.1,
+              "label": "↧ 100",
+              "offset": [
+                0.4,
+                0.202,
+                -0.07
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ],
+              "direction": -1
+            },
+            "x": {
+              "enabled": true,
+              "length": 0.1,
+              "label": "↦ 100 mm",
+              "offset": [
+                0.4,
+                0.203,
+                -0.17
+              ],
+              "labelOffset": [
+                -0.02,
+                0,
+                -0.05
+              ],
+              "direction": -1,
+              "labelOrientation": "horizontal"
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ff0000",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.02,
+            "tickSize": 0.34,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ff000080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            }
+          }
+        },
+        {
+          "id": "p4-drilled-holes-XAxis-250",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.1,
+              "label": "↧ 100",
+              "offset": [
+                0.4,
+                0.202,
+                -0.07
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ],
+              "direction": -1
+            },
+            "x": {
+              "enabled": true,
+              "length": 0.25,
+              "label": "↦ 250 mm",
+              "offset": [
+                0.4,
+                0.202,
+                -0.17
+              ],
+              "labelOffset": [
+                -0.14,
+                0,
+                -0.05
+              ],
+              "direction": -1,
+              "labelOrientation": "horizontal"
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ff6464",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.02,
+            "tickSize": 0.34,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ff000080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            }
+          }
+        },
+        {
+          "id": "p4-drilled-holes-XAxis-700",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.1,
+              "label": "↧ 100",
+              "offset": [
+                0.4,
+                0.202,
+                -0.07
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ],
+              "direction": -1
+            },
+            "x": {
+              "enabled": true,
+              "length": 0.7,
+              "label": "↦ 700 mm",
+              "offset": [
+                0.4,
+                0.2,
+                -0.17
+              ],
+              "labelOffset": [
+                -0.36,
+                0,
+                -0.05
+              ],
+              "direction": -1,
+              "labelOrientation": "horizontal"
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ffb4b4",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.02,
+            "tickSize": 0.34,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ff000080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            }
+          }
+        },
+        {
+          "id": "p4-drilled-holes-XAxis-550",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": false,
+              "length": 0.1,
+              "label": "↧ 100",
+              "offset": [
+                0.4,
+                0.202,
+                -0.07
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ],
+              "direction": -1
+            },
+            "x": {
+              "enabled": true,
+              "length": 0.55,
+              "label": "↦ 550 mm",
+              "offset": [
+                0.4,
+                0.201,
+                -0.17
+              ],
+              "labelOffset": [
+                -0.25,
+                0,
+                -0.05
+              ],
+              "direction": -1,
+              "labelOrientation": "horizontal"
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ff8c8c",
+            "lineRadius": 0.003,
+            "arrowSize": 0.02,
+            "tickSize": 0.34,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ff000080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            }
+          }
+        },
+        {
+          "id": "p4-foundation-footprint-XAxis",
+          "visibleByDefault": false,
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.8,
+              "label": "800 mm",
+              "offset": [
+                -0.4,
+                0.197,
+                -0.28
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0,
+                0,
+                -0.1
+              ],
+              "direction": 1
+            },
+            "z": {
+              "enabled": false,
+              "length": 0.34,
+              "label": "340 mm",
+              "offset": [
+                0.4,
+                0.2,
+                -0.17
+              ]
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.45,
+            "tickStyle": "dashed",
+            "tickAlign": "start",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            },
+            "showArrows": "both",
+            "showTicks": "both"
+          }
+        },
+        {
+          "id": "p4-foundation-footprint-ZAxis",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": true,
+              "length": 0.34,
+              "label": "340 mm",
+              "offset": [
+                0.5,
+                0.197,
+                0.17
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.2,
+                0,
+                0
+              ],
+              "direction": -1
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "center",
+            "depth": "back"
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.9,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 56
+            }
+          }
+        },
+        {
+          "id": "p4-drilled-holes-ZAxis-250",
+          "visibleByDefault": false,
+          "axes": {
+            "z": {
+              "enabled": true,
+              "length": 0.24,
+              "label": "↧ 240 mm",
+              "offset": [
+                0.4,
+                0.2,
+                0.07
+              ],
+              "labelOrientation": "horizontal",
+              "labelOffset": [
+                0.1,
+                0,
+                0.12
+              ],
+              "direction": -1
+            },
+            "x": {
+              "enabled": false,
+              "length": 0.25,
+              "label": "↦ 250",
+              "offset": [
+                0.4,
+                0.2,
+                -0.17
+              ],
+              "labelOffset": [
+                0,
+                0.1,
+                0
+              ],
+              "direction": -1,
+              "labelOrientation": "horizontal"
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#7dff7d",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.02,
+            "tickSize": 0.8,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#00ff0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            }
+          }
+        },
+        {
+          "id": "p4-drilled-holes-height",
+          "visibleByDefault": false,
+          "axes": {
+            "y": {
+              "enabled": true,
+              "length": 0.1,
+              "label": "100 mm",
+              "offset": [
+                0.38,
+                0.1,
+                0.07
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.1,
+                0,
+                0.05
+              ]
+            }
+          },
+          "target": {
+            "modelId": "foundation-footprint"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "right",
+            "depth": "front"
+          },
+          "style": {
+            "lineColorHex": "#ffcc00",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.02,
+            "tickSize": 0.08,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            }
+          }
+        }       
+      ],
+      "annotations":
+        [
+          {
+            "id": "p2-foundation-markout",
+            "target": {
+              "modelId": "foundation-footprint",
+              "position": [
+                0,
+                0.02,
+                0
+              ]
+            },
+            "label": {
+              "text": "Foundation footprint",
+              "lineAnchor": "top-left",
+              "offset": [
+                0,
+                0.5,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ffcc00",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#ffcc0080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "labelOrientation": "vertical"
+          },
+          {
+            "id": "m12-anchor-bolts",
+            "target": {
+              "modelId": "concrete-slab",
+              "position": [
+                0.15,
+                0.24,
+                0.12
+              ]
+            },
+            "label": {
+              "text": "M12×100 anchors",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.25,
+                0,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "pvc-conduit",
+            "target": {
+              "modelId": "concrete-slab",
+              "position": [
+                0,
+                0.26,
+                0
+              ]
+            },
+            "label": {
+              "text": "PVC conduit DN80",
+              "lineAnchor": "top-center",
+              "offset": [
+                0,
+                0.15,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "power-cables",
+            "target": {
+              "modelId": "concrete-slab",
+              "position": [
+                0,
+                0.28,
+                0
+              ]
+            },
+            "label": {
+              "text": "L1/L2/L3/N/PE",
+              "lineAnchor": "center",
+              "offset": [
+                0,
+                0.12,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ff8800",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#ff880080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "flat-washers",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.2,
+                0.22,
+                0.14
+              ]
+            },
+            "label": {
+              "text": "Flat washers",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.2,
+                0,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "spring-washers",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                -0.2,
+                0.22,
+                0.14
+              ]
+            },
+            "label": {
+              "text": "Spring washers",
+              "lineAnchor": "center-left",
+              "offset": [
+                -0.2,
+                0,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "cr2032-battery",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.05,
+                0.52,
+                -0.08
+              ]
+            },
+            "label": {
+              "text": "CR2032 + up",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.15,
+                0,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "fireproof-mud",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0,
+                0.18,
+                -0.12
+              ]
+            },
+            "label": {
+              "text": "Fireproof mud",
+              "lineAnchor": "bottom-center",
+              "offset": [
+                0,
+                -0.12,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#b45309",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#f6080980",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p3-L1-cable",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                0.009,
+                0.283,
+                0.011
+              ]
+            },
+            "label": {
+              "text": "L1 cable (red)",
+              "lineAnchor": "center-left",
+              "offset": [
+                0.15,
+                0,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#e7572f",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#f9f9f980",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 24,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p3-L2-cable",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                0.008,
+                0.305,
+                -0.013
+              ]
+            },
+            "label": {
+              "text": "L2 cable (white)",
+              "lineAnchor": "bottom-right",
+              "offset": [
+                0.15,
+                0.1,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#1e293b",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#1e293b80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 20,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p3-N-cable",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.005,
+                0.296,
+                -0.014
+              ]
+            },
+            "label": {
+              "text": "N cable (black)",
+              "lineAnchor": "center-right",
+              "offset": [
+                -0.05,
+                0.15,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#2563eb",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#2563eb80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 20,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p3-PE-cable",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.003,
+                0.28,
+                0.015
+              ]
+            },
+            "label": {
+              "text": "PE cable (green/yellow)",
+              "lineAnchor": "top-left",
+              "offset": [
+                -0.15,
+                0,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#16a34a",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#16a34a80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 20,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p3-L3-cable",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.012,
+                0.286,
+                0.003
+              ]
+            },
+            "label": {
+              "text": "L3 cable (blue)",
+              "lineAnchor": "bottom-left",
+              "offset": [
+                -0.18,
+                0.075,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#6474226eab8b",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#226eab80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 20,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-01",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                0.3,
+                0.2,
+                -0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 100, ↧ 100)",
+              "lineAnchor": "center",
+              "offset": [
+                0.1,
+                0.25,
+                -0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-02",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                0.15,
+                0.2,
+                -0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 200, ↧ 100)",
+              "lineAnchor": "center",
+              "offset": [
+                0,
+                0.25,
+                -0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-03",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                0.3,
+                0.2,
+                0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 100, ↧ 240)",
+              "lineAnchor": "center",
+              "offset": [
+                0.1,
+                0.25,
+                0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-04",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                0.15,
+                0.2,
+                0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 250, ↧ 240)",
+              "lineAnchor": "center",
+              "offset": [
+                0,
+                0.25,
+                0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-05",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                -0.15,
+                0.2,
+                -0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 550, ↧ 100)",
+              "lineAnchor": "center",
+              "offset": [
+                0,
+                0.25,
+                -0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-06",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                -0.3,
+                0.2,
+                -0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 700, ↧ 100)",
+              "lineAnchor": "center",
+              "offset": [
+                -0.1,
+                0.25,
+                -0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-07",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                -0.15,
+                0.2,
+                0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 550, ↧ 240)",
+              "lineAnchor": "center",
+              "offset": [
+                0,
+                0.25,
+                0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p4-drilled-ground-holes-08",
+            "target": {
+              "modelId": "drilled-ground-holes",
+              "position": [
+                -0.3,
+                0.2,
+                0.07
+              ]
+            },
+            "label": {
+              "text": "(↦ 700, ↧ 240)",
+              "lineAnchor": "center",
+              "offset": [
+                -0.1,
+                0.25,
+                0.1
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.002
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32,
+              "borderThicknessPx": 2
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L1-cable_red",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                0.016,
+                0.331,
+                0.115
+              ]
+            },
+            "label": {
+              "text": "L1 cable (red)",
+              "lineAnchor": "center",
+              "offset": [
+                0.075,
+                -0.025,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#f60809",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#f6080980",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 14,
+              "borderThicknessPx": 5
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L2-cable_dkgrey",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.012,
+                0.331,
+                0.117
+              ]
+            },
+            "label": {
+              "text": "L2 cable (white)",
+              "lineAnchor": "center",
+              "offset": [
+                0.05,
+                0.085,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#f9f9f9",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#f9f9f980",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-N-cable_blue",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.071,
+                0.33,
+                0.113
+              ]
+            },
+            "label": {
+              "text": "N cable (black)",
+              "lineAnchor": "center",
+              "offset": [
+                -0.05,
+                -0.05,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#2f2f2f",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#2f2f2f80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p3-PE-cable_greenyellow",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.199,
+                0.323,
+                0.111
+              ]
+            },
+            "label": {
+              "text": "PE cable (green/yellow)",
+              "lineAnchor": "center",
+              "offset": [
+                -0.1,
+                -0.025,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#16a34a",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#16a34a80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L3-cable-ltgrey",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.04,
+                0.33,
+                0.114
+              ]
+            },
+            "label": {
+              "text": "L3 cable (blue)",
+              "lineAnchor": "center",
+              "offset": [
+                0.025,
+                -0.075,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#226eab",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#226eab80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-dt-50-lugs",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.072,
+                0.364,
+                0.107
+              ]
+            },
+            "label": {
+              "text": "DT-50 lugs",
+              "lineAnchor": "center",
+              "offset": [
+                -0.025,
+                0.075,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ff8800",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#ff880080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-dt-25-lugs",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.202,
+                0.345,
+                0.105
+              ]
+            },
+            "label": {
+              "text": "DT-25 lugs",
+              "lineAnchor": "center",
+              "offset": [
+                -0.025,
+                0.075,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ff8800",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#ff880080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L1-cable_red_closeup",
+            "target": {
+              "modelId": "wiring-02",
+              "position": [
+                0.01,
+                0.438,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "L1 terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.075,
+                -0.025,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#f60809",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#f6080980",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 5
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L2-cable_dkgrey_closeup",
+            "target": {
+              "modelId": "wiring-02",
+              "position": [
+                -0.013,
+                0.442,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "L2 terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.05,
+                0.05,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#f9f9f9",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#f9f9f980",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-PE-cable_greenyellow_closeup",
+            "target": {
+              "modelId": "wiring-02",
+              "position": [
+                -0.101,
+                0.426,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "PE terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#16a34a",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#16a34a80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L3-cable-ltgrey_closeup",
+            "target": {
+              "modelId": "wiring-03",
+              "position": [
+                -0.036,
+                0.449,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "L3 terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.075,
+                -0.02,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#226eab",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#226eab80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-N-cable_blue_closeup",
+            "target": {
+              "modelId": "wiring-03",
+              "position": [
+                -0.066,
+                0.449,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "N terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.05,
+                0.035,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#2f2f2f",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#2f2f2f80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          }                                                                                                         
+      ],
+      "hotspots": [
+
+      ]
+    }    
+  ]
+}
+
