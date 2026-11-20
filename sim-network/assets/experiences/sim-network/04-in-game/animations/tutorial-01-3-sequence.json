@@ -1,0 +1,345 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "cyber-c2",
+  "scene": "sim-network",
+  "autoPlay": false,
+  "items": [
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 1,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-tutorial-03-1",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-tutorial-03-1"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 8,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-3",
+      "time": 1,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-drop-router",
+      "subLane": 1,
+      "detail": {
+        "type": "drop",
+        "partId": "router",
+        "timeSkip": 18
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-4",
+      "time": 8.5,
+      "event": "hudControl",
+      "label": "ping router button",
+      "subLane": 1,
+      "detail": {
+        "action": "showPing",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"router\"]"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-5",
+      "time": 9,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-tutorial-03-2",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-tutorial-03-2"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-6",
+      "time": 16,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 17.7,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for router drop",
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-7",
+      "time": 18,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-8",
+      "time": 18.1,
+      "event": "hudControl",
+      "label": "hide router ping",
+      "subLane": 0,
+      "detail": {
+        "action": "hidePing",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"router\"]"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-9",
+      "time": 18.1,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-drop-switch",
+      "subLane": 1,
+      "detail": {
+        "type": "drop",
+        "partId": "switch",
+        "timeSkip": 28
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-10",
+      "time": 18.2,
+      "event": "hudControl",
+      "label": "ping switch button",
+      "subLane": 1,
+      "detail": {
+        "action": "showPing",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"switch\"]"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-11",
+      "time": 18.2,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-tutorial-03-3",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-tutorial-03-3"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-12",
+      "time": 26,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "wait",
+      "id": "gate-2",
+      "time": 27.7,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for switch drop",
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-13",
+      "time": 28,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-14",
+      "time": 28.1,
+      "event": "hudControl",
+      "label": "hide switch ping",
+      "subLane": 1,
+      "detail": {
+        "action": "hidePing",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"switch\"]"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-15",
+      "time": 28.1,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-cable-switch-router",
+      "subLane": 1,
+      "detail": {
+        "type": "cable",
+        "aPartId": "switch",
+        "bPartId": "router",
+        "timeSkip": 38
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-16",
+      "time": 28.2,
+      "event": "hudControl",
+      "label": "ping cable button",
+      "subLane": 1,
+      "detail": {
+        "action": "showPing",
+        "selector": ".sim-network-drop-palette__btn--cable"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-17",
+      "time": 28.2,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-tutorial-03-4",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-tutorial-03-4"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-18",
+      "time": 36,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "wait",
+      "id": "gate-3",
+      "time": 37.7,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for cable switch to router",
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-19",
+      "time": 38,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-20",
+      "time": 38.1,
+      "event": "hudControl",
+      "label": "hide cable ping",
+      "subLane": 1,
+      "detail": {
+        "action": "hidePing",
+        "selector": ".sim-network-drop-palette__btn--cable"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-4",
+      "time": 40,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "End of tutorial",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-21",
+      "time": 9.5,
+      "event": "hudControl",
+      "label": "ping router button",
+      "subLane": 1,
+      "detail": {
+        "action": "showPing",
+        "selector": ".sim-network-toolbar__slot"
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "label": "Now entering...",
+      "color": "#f5a623",
+      "startTime": 0,
+      "endTime": 5
+    },
+    {
+      "id": "chapter-2",
+      "label": "Device placement",
+      "color": "#f5a623",
+      "startTime": 16,
+      "endTime": 18
+    },
+    {
+      "id": "chapter-3",
+      "label": "Add a switch",
+      "color": "#f5a623",
+      "startTime": 26,
+      "endTime": 28
+    },
+    {
+      "id": "chapter-4",
+      "label": "Lay the cable",
+      "color": "#f5a623",
+      "startTime": 36,
+      "endTime": 38
+    }
+  ],
+  "regions": [
+    {
+      "id": "region-1",
+      "label": "Drop a router in the office.",
+      "color": "#4a90d9",
+      "startTime": 16,
+      "endTime": 18
+    },
+    {
+      "id": "region-2",
+      "label": "Drop a switch in the office.",
+      "color": "#4a90d9",
+      "startTime": 26,
+      "endTime": 28
+    },
+    {
+      "id": "region-3",
+      "label": "Connect the switch to the router.",
+      "color": "#4a90d9",
+      "startTime": 36,
+      "endTime": 38
+    },
+    {
+      "id": "region-4",
+      "label": "LAN: 1-3",
+      "color": "#4a90d9",
+      "startTime": 0,
+      "endTime": 5
+    }
+  ],
+  "rowOrder": []
+}

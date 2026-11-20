@@ -1,0 +1,3558 @@
+/* ============================================================================
+   Sim Network experience styles
+   Organised by area: in-game play UI → 2D flow (shared + splash + split) →
+   info drawer → HTML timeline clips.
+   Backdrop paint for flow/loading lives in styles/loading.css (sticky).
+   ============================================================================ */
+
+/* ==========================================================================
+   IN-GAME PLAY UI
+   ========================================================================== */
+
+/* ==========================================================================
+   IN-GAME: TOOLBAR — style C "Refined stack" (replaces .sim-network-drop-palette)
+   Layout only. Button colours come from DaisyUI classes in the markup
+   (btn-primary, btn-info, menu-active). The dark card reuses the values
+   already in this file (volume popover, palette chip, empty trigger).
+   ========================================================================== */
+
+#uiContainer > .sim-network-toolbar {
+    position: absolute;            /* never fixed: stays out of the gutters */
+    left: 50%;
+    bottom: 1rem;
+    translate: -50% 0;
+    z-index: 6;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    pointer-events: auto;
+}
+#uiContainer > .sim-network-toolbar[hidden] {
+    display: none;
+}
+
+/* ---- Slot: shows the active tool, opens the menu ------------------------ */
+.sim-network-toolbar__slot {
+    height: 3rem;
+    min-width: 9rem;
+    max-width: 12rem;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+    /* #uiContainer is pointer-events:none; this control must own the full dashed box. */
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+}
+/* Decorative kids never steal/miss hits — the button box always receives the click. */
+.sim-network-toolbar__slot > * {
+    pointer-events: none;
+}
+.sim-network-toolbar__slot-text {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;       /* "Wi-Fi Extender" fits at 12rem; ellipsis on phone */
+}
+.sim-network-toolbar__slot-icon {
+    flex: none;
+    display: inline-flex;
+}
+.sim-network-toolbar__slot--empty {
+    /* Non-zero paint so the empty/dashed control keeps a reliable hit box. */
+    background: oklch(100% 0 0 / 0.12);
+    border-style: dashed;
+    border-color: oklch(100% 0 0 / 0.45);
+    color: oklch(100% 0 0 / 0.9);
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+.sim-network-toolbar.is-open .sim-network-toolbar__slot--empty {
+    background: oklch(0% 0 0 / 0.55);
+    border-style: solid;
+    border-color: oklch(100% 0 0 / 0.6);
+}
+/* button.btn later in this file forces an outset border. Restate the empty look so it wins. */
+button.btn.sim-network-toolbar__slot--empty,
+button.btn.sim-network-toolbar__slot--empty:hover,
+button.btn.sim-network-toolbar__slot--empty:active {
+    background: oklch(100% 0 0 / 0.12);
+    border-style: dashed;
+    border-color: oklch(100% 0 0 / 0.45);
+    color: oklch(100% 0 0 / 0.9);
+    pointer-events: auto !important;
+}
+.sim-network-toolbar.is-open button.btn.sim-network-toolbar__slot--empty,
+.sim-network-toolbar.is-open button.btn.sim-network-toolbar__slot--empty:hover,
+.sim-network-toolbar.is-open button.btn.sim-network-toolbar__slot--empty:active {
+    background: oklch(0% 0 0 / 0.55);
+    border-style: solid;
+    border-color: oklch(100% 0 0 / 0.6);
+    color: oklch(100% 0 0 / 0.9);
+}
+.sim-network-toolbar__chevron {
+    transition: rotate 180ms ease;
+    pointer-events: none;
+}
+.sim-network-toolbar.is-open .sim-network-toolbar__chevron { rotate: 180deg; }
+
+/* ---- Test: separate action ---------------------------------------------- */
+.sim-network-toolbar__test {
+    height: 3rem;
+    gap: 0.375rem;
+    padding-inline: 1rem;
+}
+
+/* ---- Menu card ---------------------------------------------------------- */
+.sim-network-toolbar__menu {
+    position: absolute;
+    /* Span the full Tools + Test row (board 01), not a fixed narrower card. */
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 0.5rem);
+    translate: 0;
+    width: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+    padding: 0.375rem;
+    border-radius: 0.5rem;
+    background: oklch(0% 0 0 / 0.72);
+    border: 1px solid oklch(100% 0 0 / 0.18);
+    box-shadow: 0 4px 16px oklch(0% 0 0 / 0.35);
+    color: #f8fafc;
+    /* DaisyUI 5 paints menu-active with neutral (black). Point it at primary so the ticked row is the theme blue. */
+    --menu-active-bg: var(--color-primary);
+    --menu-active-fg: var(--color-primary-content);
+    opacity: 0;
+    visibility: hidden;
+    /* Closed menu must not steal clicks from the Tools slot / canvas. */
+    pointer-events: none;
+    transition: opacity 180ms ease, visibility 180ms ease;   /* matches palette row open */
+}
+.sim-network-toolbar.is-open .sim-network-toolbar__menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.sim-network-toolbar__menu > li { min-width: 0; }
+/* A timeline hide (hud-control-hidden or the hidden attribute) drops that row. */
+.sim-network-toolbar__menu > li:has(.hud-control-hidden),
+.sim-network-toolbar__menu > li:has([hidden]) {
+    display: none;
+}
+
+.sim-network-toolbar__row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 2.75rem;            /* 44px touch target */
+    gap: 0.625rem;
+    padding-inline: 0.375rem 0.625rem;
+    color: #f3f4f6;
+}
+.sim-network-toolbar__label {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+/* Board 01 stock pill — right-aligned (margin-left: auto). */
+.sim-network-toolbar__stock {
+    flex: none;
+    margin-left: auto;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    color: #e5e7eb;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+}
+.sim-network-toolbar__dot {
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 0;                      /* board 01: soft fill, no white ring */
+    color: #ffffff;
+}
+.sim-network-toolbar__dot svg {
+    color: inherit;
+    stroke: currentColor;
+}
+.sim-network-toolbar__row.menu-active .sim-network-toolbar__dot {
+    background: oklch(100% 0 0 / 0.22);
+}
+/*
+ * Exhausted / locked rows: keep light text + icons (board opacity dim), not Daisy black.
+ * Native :disabled still blocks clicks.
+ */
+.sim-network-toolbar__menu .sim-network-toolbar__row:disabled,
+.sim-network-toolbar__menu .sim-network-toolbar__row.is-exhausted {
+    opacity: 0.5;
+    color: #f3f4f6;
+    background-color: transparent;
+}
+.sim-network-toolbar__menu .sim-network-toolbar__row:disabled .sim-network-toolbar__dot,
+.sim-network-toolbar__menu .sim-network-toolbar__row.is-exhausted .sim-network-toolbar__dot,
+.sim-network-toolbar__menu .sim-network-toolbar__row:disabled .sim-network-toolbar__label,
+.sim-network-toolbar__menu .sim-network-toolbar__row.is-exhausted .sim-network-toolbar__label,
+.sim-network-toolbar__menu .sim-network-toolbar__row:disabled .sim-network-toolbar__stock,
+.sim-network-toolbar__menu .sim-network-toolbar__row.is-exhausted .sim-network-toolbar__stock {
+    color: #f3f4f6;
+    opacity: 1;
+}
+
+/* Selected tool on the slot: white glyph (btn-primary content can be dark). */
+.sim-network-toolbar__slot.btn-primary {
+    color: #ffffff;
+}
+.sim-network-toolbar__slot.btn-primary .sim-network-toolbar__slot-icon,
+.sim-network-toolbar__slot.btn-primary .sim-network-toolbar__slot-icon svg {
+    color: #ffffff;
+    stroke: currentColor;
+}
+
+/* ---- Phone: 44px toolbar buttons (ui-spec); menu already spans Tools + Test ---- */
+@media (max-width: 767px) {
+    .sim-network-toolbar__slot,
+    .sim-network-toolbar__test {
+        height: 2.75rem;           /* 44px */
+        min-height: 2.75rem;
+    }
+    .sim-network-toolbar__slot { min-width: 7rem; max-width: 7rem; }
+    .sim-network-toolbar__test { padding-inline: 0.75rem; }
+}
+
+/* ---- Short landscape: 3 across, stays under the centred zoom indicator --- */
+@media (max-height: 500px) {
+    .sim-network-toolbar__menu { width: auto; grid-template-columns: repeat(3, 9.75rem); }
+    .sim-network-toolbar__row { min-height: 2.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sim-network-toolbar__menu,
+    .sim-network-toolbar__chevron { transition: none; }
+}
+
+.sim-network-drop-toast {
+    /* Sit under Camera locked (+ unlock hint) at top: 1rem */
+    position: absolute;
+    left: 50%;
+    top: 7.25rem;
+    transform: translateX(-50%);
+    z-index: 7;
+    max-width: min(22rem, 70%);
+    pointer-events: none;
+    text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Sim-network Test Connection — Daisy alert + progress (anchored to palette)
+   -------------------------------------------------------------------------- */
+
+/* Testing, fail, and success all use this one panel. It sits on the bottom button and catches clicks so that button cannot be pressed while a result is showing. */
+#uiContainer > .sim-network-test-alert {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    translate: -50% 0;
+    z-index: 8;
+    width: min(22rem, calc(100% - 2rem));
+    min-width: 0;
+    max-width: calc(100% - 2rem);
+    pointer-events: auto;
+}
+
+/* Keep Daisy progress readable on any alert tone — black fill, light track. */
+.sim-network-test-alert .progress {
+    height: 0.75rem;
+    min-height: 0.75rem;
+    --progress-color: #000;
+    color: #000;
+    background-color: oklch(100% 0 0 / 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   EXIT button - top-right header (black like splash LET'S GO, compact size)
+   -------------------------------------------------------------------------- */
+
+.sim-network-exit-button {
+    margin-left: 0.5rem;
+}
+
+.sim-network-exit-button__btn {
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.sim-network-exit-button__btn--compact > span {
+    display: none;
+}
+
+/* ==========================================================================
+   IN-GAME: CELL INSPECTOR — one-row header + Connections tray (board 31)
+   DaisyUI: btn / badge / rounded-box / border-base-content/10 / bg-base-200.
+   Exact board tokens (sizes, fills, dashed slots) live here. Unplug is separate.
+   ========================================================================== */
+
+/* Stack = header panel + optional tray (player frame). */
+#uiContainer > .sim-network-inspector-stack {
+    position: absolute;              /* never fixed: stays out of the gutters */
+    top: 0.75rem;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 6;
+    width: calc(360px + 6rem); /* 456px — board 31 header width */
+    max-width: calc(100% - 2rem);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem; /* 8px header→tray */
+    pointer-events: auto;
+}
+
+.sim-network-inspector {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.75rem; /* 12px */
+    padding: 0.75rem 0.75rem 0.75rem 0.875rem; /* 12 / 12 / 12 / 14 */
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 1rem; /* 16px */
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* ---- Device block ------------------------------------------------------- */
+.sim-network-inspector__device {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.sim-network-inspector__tile {
+    width: 2.75rem; /* 44px */
+    height: 2.75rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 0.75rem; /* 12px */
+    background: #f1f5f9;
+}
+.sim-network-inspector__identity {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+    gap: 0.125rem;
+}
+.sim-network-inspector__name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+}
+.sim-network-inspector__name {
+    font-size: 1rem; /* 16px */
+    font-weight: 600;
+    white-space: nowrap;
+}
+.sim-network-inspector__count {
+    font-size: 0.8125rem; /* 13px */
+    white-space: nowrap;
+    color: #475569;
+}
+.sim-network-inspector__count b {
+    color: #1f2937;
+    font-weight: 700;
+}
+
+/* Solid red Remove (board 31) — DaisyUI btn-error base, sized to 36px. */
+.sim-network-inspector__remove,
+.sim-network-inspector__fixed {
+    flex: none;
+    width: 2.25rem; /* 36px */
+    height: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0;
+    margin-left: auto;
+    border-radius: 0.625rem; /* 10px */
+    border: 0;
+}
+.sim-network-inspector__remove {
+    background: #ff5861 !important;
+    color: #ffffff !important;
+}
+
+/* Vertical rule between Remove and Connections (becomes horizontal in portrait). */
+.sim-network-inspector__header-divider {
+    flex: none;
+    align-self: stretch;
+    width: 1px;
+    margin-inline: 0.25rem; /* 4px */
+    background: #e2e8f0;
+}
+.sim-network-inspector__header-divider[hidden],
+.sim-network-inspector__header-divider.hidden {
+    display: none;
+}
+
+/* CONNECTIONS label + dark count pill */
+.sim-network-inspector__connections-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: none;
+    min-width: 0;
+}
+.sim-network-inspector__connections-meta[hidden],
+.sim-network-inspector__connections-meta.hidden {
+    display: none;
+}
+.sim-network-inspector__connections-label {
+    font-size: 0.625rem; /* 10px */
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    line-height: 1;
+}
+.sim-network-inspector__status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.1875rem;
+    height: 1.375rem;
+    padding-inline: 0.4375rem;
+    flex: none;
+    width: max-content;
+    font-weight: 700;
+    line-height: 1;
+}
+.sim-network-inspector__status-badge[hidden],
+.sim-network-inspector__status-badge.hidden {
+    display: none;
+}
+.sim-network-inspector__conn-half {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.sim-network-inspector__conn-half-icon {
+    display: inline-flex;
+    flex: none;
+}
+.sim-network-inspector__conn-half-num {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1;
+}
+.sim-network-inspector__conn-sep {
+    opacity: 0.5;
+    font-weight: 400;
+    font-size: 0.6875rem;
+    line-height: 1;
+    margin-inline: 0.125rem;
+}
+
+/* Square chevron toggle (board 31) */
+.sim-network-inspector__connections-toggle {
+    flex: none;
+    width: 2.25rem; /* 36px */
+    height: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0;
+    margin-left: 0.75rem; /* 12px from Connections block */
+    border-radius: 0.625rem; /* 10px */
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #1f2937;
+}
+.sim-network-inspector__connections-toggle[hidden],
+.sim-network-inspector__connections-toggle.hidden {
+    display: none;
+}
+
+/* ---- Tray (fitted width, right-aligned under chevron) ------------------- */
+.sim-network-inspector-tray {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    align-self: flex-end;
+    gap: 1.25rem; /* 20px */
+    padding: 0.75rem 0.875rem 0.875rem; /* 12 14 14 */
+    box-sizing: border-box;
+    width: max-content;
+    max-width: 100%;
+    border-radius: 1rem;
+    background: #f8fafc;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+.sim-network-inspector__strip {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* 8px */
+    min-width: 0;
+    flex: 0 1 auto;
+}
+/* Divider only when Wired and Wireless are both visible side-by-side */
+.sim-network-inspector__strip--wired:not(.hidden) + .sim-network-inspector__strip--wireless:not(.hidden) {
+    padding-left: 1.25rem;
+    border-left: 1px solid #e2e8f0;
+}
+.sim-network-inspector__strip-label {
+    font-size: 0.6875rem; /* 11px */
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+}
+.sim-network-inspector__ports,
+.sim-network-inspector__wifi-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem; /* 6px */
+    width: max-content;
+    /* Cap at 4 × 40px buttons so extras wrap (board 31b). */
+    max-width: calc(4 * 2.5rem + 3 * 0.375rem);
+}
+.sim-network-inspector__port,
+.sim-network-inspector__wifi-chip {
+    width: 2.5rem; /* 40px */
+    height: 2.5rem;
+    min-height: 0;
+    padding: 0;
+    border-radius: 0.5rem; /* 8px */
+    border-width: 1.5px;
+    border-style: solid;
+    background: #ffffff;
+    box-shadow: none;
+}
+.sim-network-inspector__port {
+    border-color: #4b6bfb;
+    color: #1f2937;
+}
+.sim-network-inspector__port.is-selected {
+    background: rgba(75, 107, 251, 0.5);
+    box-shadow: none;
+}
+.sim-network-inspector__wifi-chip {
+    border-color: #f97316;
+    color: #1f2937;
+}
+.sim-network-inspector__wifi-chip.is-selected {
+    background: rgba(251, 146, 60, 0.5);
+    box-shadow: none;
+}
+.sim-network-inspector__port--empty {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* ---- HTML Unplug pill (cable midpoint in player frame) ------------------ */
+#uiContainer > .sim-network-unplug-pill {
+    position: absolute;
+    z-index: 7;
+    translate: -50% -50%;
+    pointer-events: auto;
+}
+
+/* ---- Portrait: header stacks to two rows (phone + tablet) -------------- */
+@media (orientation: portrait) {
+    .sim-network-inspector {
+        flex-wrap: wrap;
+        row-gap: 0.625rem;
+    }
+    .sim-network-inspector__device {
+        flex: 1 1 calc(100% - 3rem);
+        max-width: 100%;
+    }
+    .sim-network-inspector__header-divider:not([hidden]):not(.hidden) {
+        flex: 1 1 100%;
+        width: auto;
+        height: 1px;
+        margin: 0 -0.75rem;
+        align-self: auto;
+    }
+    .sim-network-inspector__connections-meta:not([hidden]):not(.hidden) {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.625rem;
+        flex: 1 1 auto;
+    }
+    .sim-network-inspector__connections-toggle:not([hidden]):not(.hidden) {
+        margin-left: auto;
+    }
+}
+
+/* ---- Tablet and below (top clearance — keep today’s ~4rem) -------------- */
+@media (max-width: 1024px) {
+    .sim-network-inspector__label { display: none; }
+}
+
+@media (max-width: 1023px) {
+    #uiContainer > .sim-network-inspector-stack { top: 4rem; }
+}
+
+/* ---- Phone: full-bleed stack; tray Wired/Wireless stack (today’s rule) -- */
+@media (max-width: 767px) {
+    #uiContainer > .sim-network-inspector-stack {
+        top: 4rem;
+        left: 0.5rem; /* 8px — phone portrait margins; also used in landscape per today */
+        right: 0.5rem;
+        translate: none;
+        width: auto;
+        max-width: none;
+    }
+    .sim-network-inspector-tray {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        width: 100%;
+        max-width: 100%;
+        align-self: stretch;
+    }
+    .sim-network-inspector__strip--wired:not(.hidden) + .sim-network-inspector__strip--wireless:not(.hidden) {
+        padding-left: 0;
+        border-left: 0;
+        width: 100%;
+        padding-top: 0.5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+}
+
+/* Tablet portrait: keep 456px centred (do not full-bleed like phone). */
+@media (orientation: portrait) and (min-width: 768px) {
+    #uiContainer > .sim-network-inspector-stack {
+        left: 50%;
+        right: auto;
+        translate: -50% 0;
+        width: calc(360px + 6rem);
+        max-width: calc(100% - 2rem);
+    }
+    .sim-network-inspector-tray {
+        width: max-content;
+        max-width: 100%;
+        align-self: flex-end;
+    }
+}
+
+/* ---- Short landscape ---------------------------------------------------- */
+@media (max-height: 500px) {
+    #uiContainer > .sim-network-inspector-stack { top: 3.75rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Sim-network camera lock banner — top-middle of player frame
+   -------------------------------------------------------------------------- */
+
+.sim-network-camera-locked-banner {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: min(22rem, calc(100% - 2rem));
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-field, 0.25rem);
+    background: rgba(15, 23, 42, 0.82);
+    color: #f8fafc;
+    border: 1px solid rgba(248, 250, 252, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    pointer-events: none;
+    text-align: center;
+}
+
+.sim-network-camera-locked-banner__title {
+    white-space: nowrap;
+}
+
+.sim-network-camera-locked-banner__hint {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.35;
+    opacity: 0;
+    transition: opacity 250ms ease;
+    white-space: normal;
+}
+
+.sim-network-camera-locked-banner__hint.is-visible {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   2D FLOW SCREENS
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   2D SHARED — white elevated surfaces + dark headings (photo-card screens)
+   Use together with scene-specific classes (e.g. splash__title + 2d-heading)
+   so either class alone still styles correctly.
+   -------------------------------------------------------------------------- */
+
+.sim-network-2d-surface {
+    border-radius: 1rem;
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 0.18);
+}
+
+.sim-network-2d-heading {
+    margin: 0;
+    font-size: clamp(1rem, 3.5vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0f172a;
+}
+
+/* Splash tagline only — smaller than shared 2d headings so short screens stay readable. */
+.sim-network-splash__title {
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.65);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.sim-network-2d-heading.sim-network-split__title,
+.sim-network-split__title {
+    margin: 0;
+    font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: #0f172a;
+}
+
+.sim-network-2d-lead,
+.sim-network-splash__lead {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: #334155;
+    max-width: 32rem;
+}
+
+.sim-network-2d-lead.sim-network-split__lead,
+.sim-network-split__lead {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    text-align: center;
+    color: #334155;
+    max-width: 32rem;
+}
+
+/* --------------------------------------------------------------------------
+   2D SHARED — flow overlay shell (all 2D scenes)
+   Shell: overlay > backdrop (background only) + content (foreground UI)
+   -------------------------------------------------------------------------- */
+
+/* Content shell — `#uiSection` mounted in #uiContainer-center (see styles/styles.css).
+   Per-screen identity is a class on #uiSection (e.g. .sim-network-splash-overlay).
+   z-index 4 stays below always-on header/footer chrome (z-index 5 in styles.css). */
+#uiContainer-center > #uiSection {
+    position: relative;
+    z-index: 4;
+    pointer-events: auto;
+}
+
+/* Full-bleed paint — mounted on #uiContainer root (not inside center).
+   Paint recipe (gradient / grid / tiles) lives in sticky styles/loading.css.
+   Stays under header/footer chrome (z-index 5 in styles.css) and above the canvas. */
+#uiContainer > .sim-network-flow-overlay__backdrop,
+.sim-network-flow-overlay__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Complete-screen fanfare. Lives inside the backdrop, so it stays under dialogue. */
+.sim-network-complete-fireworks {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sim-network-firework {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.sim-network-firework__spoke {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    height: var(--travel, 80px);
+    margin-left: -1.5px;
+    border-radius: 999px;
+    background: linear-gradient(to top, transparent, currentColor 40%, #fff);
+    box-shadow: 0 0 10px currentColor;
+    transform-origin: center bottom;
+    opacity: 0;
+    animation: sim-network-firework-spoke 1.1s ease-out forwards;
+}
+
+.sim-network-firework__dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 6px currentColor;
+    opacity: 0;
+    animation: sim-network-firework-dot 1.35s ease-out forwards;
+}
+
+.sim-network-firework__core {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 16px 6px currentColor;
+    animation: sim-network-firework-core 0.7s ease-out forwards;
+}
+
+@keyframes sim-network-firework-spoke {
+    0% {
+        opacity: 0;
+        transform: rotate(var(--angle)) scaleY(0.08);
+    }
+    18% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(var(--angle)) scaleY(1);
+    }
+}
+
+@keyframes sim-network-firework-dot {
+    0% {
+        opacity: 0;
+        transform: rotate(var(--angle)) translateY(calc(var(--travel) * -0.4)) scale(0.35);
+    }
+    22% {
+        opacity: 0.95;
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(var(--angle)) translateY(calc(-1 * var(--travel))) scale(1);
+    }
+}
+
+@keyframes sim-network-firework-core {
+    0% {
+        opacity: 1;
+        transform: scale(0.3);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2.2);
+    }
+}
+
+/* Paper scraps. The field is the measured box so each scrap can fall its full height. */
+.sim-network-confetti-field {
+    position: absolute;
+    inset: 0;
+    container-type: size;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sim-network-confetti {
+    position: absolute;
+    top: -4%;
+    border-radius: 1px;
+    pointer-events: none;
+    animation-name: sim-network-confetti-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes sim-network-confetti-fall {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate3d(var(--sway, 12px), 55cqh, 0) rotate(calc(var(--spin, 180deg) * 0.5));
+    }
+    100% {
+        transform: translate3d(calc(var(--sway, 12px) * -0.35), 108cqh, 0) rotate(var(--spin, 180deg));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sim-network-firework__spoke,
+    .sim-network-firework__dot,
+    .sim-network-firework__core,
+    .sim-network-confetti {
+        animation: none;
+    }
+}
+
+.sim-network-flow-overlay__panel {
+    width: min(100%, 42rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+    color: #f8fafc;
+}
+
+.sim-network-flow-overlay__panel--instructions {
+    width: min(100%, 36rem);
+    text-align: left;
+    align-items: stretch;
+}
+
+.sim-network-flow-overlay__panel--instructions .sim-network-flow-overlay__title,
+.sim-network-flow-overlay__panel--instructions .sim-network-flow-overlay__cta {
+    text-align: center;
+    align-self: center;
+}
+
+.sim-network-flow-overlay__logo img {
+    max-width: min(100%, 20rem);
+    height: auto;
+}
+
+.sim-network-flow-overlay__title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.sim-network-flow-overlay__lead {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    max-width: 32rem;
+}
+
+.sim-network-flow-overlay__body {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    opacity: 0.95;
+}
+
+.sim-network-flow-overlay__list {
+    margin-top: 0.75rem;
+}
+
+.sim-network-flow-overlay__cta {
+    margin-top: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   2D — Splash (01-splash)
+   Gate card → large photo panel + white strip
+   -------------------------------------------------------------------------- */
+
+.sim-network-flow-overlay--splash-gate {
+    cursor: pointer;
+}
+
+.sim-network-splash {
+    /* Full player-frame slot so % sizes on the main panel resolve correctly. */
+    width: 96%;
+    height: 96%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2%;
+}
+
+.sim-network-splash__gate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.5rem 1.75rem;
+    text-align: center;
+    /* Surface look: pair with .sim-network-2d-surface in HTML */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.sim-network-splash__gate.is-visible {
+    opacity: 1;
+}
+
+.sim-network-splash__gate.is-gone {
+    opacity: 0;
+    display: none;
+}
+
+/* Return visit (gate already unlocked this tab): hide gate card while title/logo sequence still runs. */
+.sim-network-splash--skip-gate [data-splash-gate] {
+    display: none !important;
+    pointer-events: none;
+}
+
+.sim-network-splash__gate-logo {
+    margin: 0;
+    width: 200px;
+    height: 50px;
+    background-image: url('../images/sim-network-title.png');
+    background-repeat: repeat;
+    background-position: 100%;
+    background-size: cover;    
+}
+
+.sim-network-splash__gate-logo img {
+    display: block;
+    max-width: 10rem;
+    width: 100%;
+    height: auto;
+}
+
+.sim-network-splash__gate-text {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: #0f172a;
+}
+
+.sim-network-splash__main {
+    display: none;
+    flex-direction: column;
+    /* 80% of player frame (content slot), not a fixed rem width. */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* Surface look: pair with .sim-network-2d-surface in HTML */
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.sim-network-splash__main.is-ready {
+    display: flex;
+}
+
+.sim-network-splash__main.is-visible {
+    opacity: 1;
+}
+
+.sim-network-splash__hero {
+    /* Room kept clear at the bottom for tagline + START (approx strip height). */
+    --sim-network-splash-strip-reserve: 8rem;
+    position: relative;
+    container-type: size;
+    container-name: splash-hero;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 0;
+    width: 100%;
+    background-color: #e2e8f0;
+    background-image: url('../images/splash-full.jpg');
+    background-repeat: repeat;
+    background-position: 100%;
+    background-size: cover;
+}
+
+@keyframes sim-network-splash-hero-pan {
+    from {
+        background-position: 100% 50%;
+    }
+    to {
+        background-position: 0% 50%;
+    }
+}
+.sim-network-splash__hero--pan {
+    animation: sim-network-splash-hero-pan 90s linear forwards;
+}
+
+/*
+ * Logo is centered in the area ABOVE the strip reserve (option C),
+ * so it cannot sit on the tagline / START.
+ * Image cap: 50% of hero height (40% on short landscape).
+ */
+.sim-network-splash__hero-logo {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: var(--sim-network-splash-strip-reserve);
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    background: none;
+    z-index: 0;
+}
+
+.sim-network-splash__hero-logo img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: min(100%, 50cqh);
+    object-fit: contain;
+    opacity: 0;
+    scale: -1;
+    transform: rotate(90deg);
+    background: linear-gradient(-45deg, transparent 40%, #fafafa 50%, transparent 60%);
+    background-size: 200%;
+    background-position-x: 100%;
+}
+
+@keyframes sim-network-splash__hero-logo-appear {
+    0% {
+        opacity: 0;
+        scale: 0;
+        transform: rotate(120deg);
+        background-position-x: 100%
+    }
+    50% {
+        opacity: 1;
+        scale: 1.25;
+        transform: rotate(0deg);
+        background-position-x: 100%
+    }
+    60% {
+        opacity: 1;
+        scale: 1;
+        transform: rotate(0deg);
+        background-position-x: 100%;
+    }
+    100% {
+        opacity: 1;
+        scale: 1;
+        transform: rotate(0deg);
+        background-position-x: 0%
+    }
+}
+
+.sim-network-splash__hero-logo.is-visible {
+    opacity: 1;
+}
+.sim-network-splash__hero-logo.is-visible img {
+    opacity: 1;
+    scale: 1;
+    transform: rotate(0deg);
+    animation: sim-network-splash__hero-logo-appear 3s ease-in-out forwards;
+}
+
+/* Phone portrait: slightly narrower slot; <picture> source swaps the file. */
+@media (max-width: 767px) and (orientation: portrait) {
+    .sim-network-splash__hero-logo {
+        width: 70%;
+    }
+}
+
+/* Short landscape: smaller logo cap so the reserved strip stays clear. */
+@media (orientation: landscape) and (max-height: 500px) {
+    .sim-network-splash__hero {
+        --sim-network-splash-strip-reserve: 6.75rem;
+    }
+
+    .sim-network-splash__hero-logo img {
+        max-height: min(100%, 40cqh);
+    }
+}
+
+.sim-network-splash__strip {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 1.25rem;
+    padding: 1rem 1.5rem 0.5rem;
+    text-align: center;
+    color: #0f172a;
+}
+
+.sim-network-splash__cta {
+    margin: 0.25rem;
+    font-size: 2rem;
+    padding: 2rem;
+}
+
+/* --------------------------------------------------------------------------
+   2D — Split layout (02-instructions + 03-level-select)
+   Photo (~60%) + content card (~40%, height fits content)
+   -------------------------------------------------------------------------- */
+
+
+
+
+
+
+
+.sim-network-split {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 0;
+}
+
+.sim-network-split__photo {
+    flex: 3 1 0;
+    align-self: stretch;
+    min-width: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: #e2e8f0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 0.18);
+}
+
+.sim-network-split__card {
+    flex: 0 1 auto;
+    align-self: center;
+    width: 100%;
+    max-width: 720px;
+    margin-inline: auto;
+    height: fit-content;
+    max-height: 100%;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.5rem 1.35rem;
+    /* Surface look: pair with .sim-network-2d-surface in HTML */
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+.sim-network-split__body {
+    flex: 0 1 auto;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #334155;
+    text-align: left;
+}
+
+.sim-network-split__body p {
+    margin: 0 0 0.75rem;
+}
+
+.sim-network-split__body .sim-network-flow-overlay__list {
+    margin-top: 0.5rem;
+    color: #334155;
+}
+
+.sim-network-split__cta {
+    align-self: center;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+.sim-network-split__card .sim-network-level-columns {
+    width: 100%;
+    margin-top: 0;
+}
+
+/* Level-select: one chapter card per group, steps row under the cards */
+.sim-network-level-select-lead {
+    margin: 0 0 0.5rem;
+    width: 100%;
+    text-align: center;
+    color: #f8fafc;
+    font-size: 1.05rem;
+    line-height: 1.4;
+}
+
+.sim-network-level-select-strip-slot {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-width: 0;
+}
+
+.sim-network-chapter-card {
+    --portrait-poster: 100%;
+    position: relative;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "media"
+        "copy";
+    justify-items: center;
+    width: 18rem;
+    min-height: 0;
+    background: rgb(0 0 0 / 25%);
+    border-radius: 0.5rem;
+    color: #f8fafc;
+    text-align: center;
+    padding: 1rem;
+}
+
+.sim-network-chapter-card__index {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(-35%, -50%);
+    pointer-events: none;
+}
+
+.sim-network-chapter-card__media {
+    grid-area: media;
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(248, 250, 252, 0.45);
+    overflow: visible;
+}
+
+.sim-network-chapter-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sim-network-chapter-card__number {
+    display: block;
+    margin: 0;
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #f8fafc;
+}
+
+.sim-network-chapter-card__label {
+    margin: 0.15rem 0 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+.sim-network-chapter-card__copy {
+    grid-area: copy;
+    width: 100%;
+}
+
+
+.sim-network-chapter-card--locked .sim-network-chapter-card__media > img  {
+    /* Black silhouette — locked cards only; unlocked/complete keep full colour */
+    opacity: 0.55;
+    filter: brightness(0);
+}
+
+.sim-network-chapter-card--locked .sim-network-level-column__lock {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+    margin: 0;
+    transform: none;
+    background: transparent;
+}
+
+.sim-network-chapter-card--locked .sim-network-level-column__lock svg {
+    width: 5.5rem;
+    height: 5.5rem;
+    opacity: 1;
+}
+
+.sim-network-level-column__soon-banner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    margin: 0;
+    padding: 0.2rem 0.7rem;
+    background: rgb(184, 29, 29);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.sim-network-chapter-card__title {
+    margin: 0 0 0.4rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.sim-network-chapter-card__description {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.35;
+}
+
+@media (min-width: 1024px) {
+    .sim-network-chapter-card {
+        width: 20rem;
+    }
+}
+
+/* Phone: the strip forces each card slot to the screen width. */
+@media (max-width: 1023px) {
+    .sim-network-chapter-card {
+        width: 100%;
+    }
+}
+
+/*
+ * Upright phone and tablet: square on top, number and sideways name on its left edge.
+ * Side gutters keep the title and description clear of the arrows.
+ * The description box is always three lines tall so the steps do not jump.
+ */
+@media (max-width: 1023px) and (orientation: portrait) {
+    .sim-network-level-select-strip-slot {
+        --portrait-poster: clamp(9.5rem, 46vw, 16rem);
+    }
+
+    .sim-network-chapter-card {
+        display: grid;
+        grid-template-columns: 1fr var(--portrait-poster) 1fr;
+        grid-template-areas:
+            ". media ."
+            "copy copy copy";
+        justify-items: center;
+        min-height: 0;
+        text-align: center;
+    }
+
+    .sim-network-level-select-strip-slot .item-strip {
+        padding-inline: 1rem;
+        overflow: visible;
+    }
+
+    .sim-network-chapter-card__media {
+        grid-area: media;
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        box-sizing: border-box;
+        overflow: visible;
+    }
+
+    .sim-network-chapter-card__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .sim-network-chapter-card__copy {
+        grid-area: copy;
+        width: 100%;
+    }
+
+    .sim-network-chapter-card__description {
+        min-height: 3lh;
+    }
+
+    .sim-network-level-select-strip-slot .item-strip__prev {
+        left: calc(-1rem + 0.2rem);
+    }
+
+    .sim-network-level-select-strip-slot .item-strip__next {
+        right: calc(-1rem + 0.2rem);
+    }
+
+    .sim-network-level-select-strip-slot .item-strip__prev:hover,
+    .sim-network-level-select-strip-slot .item-strip__next:hover {
+        transform: translateY(-50%) scale(1.05);
+    }
+}
+
+/*
+ * Upright phone only. The heading sits on the picture.
+ * The number sits on the top-left corner, and the short name runs down that edge.
+ */
+@media (max-width: 599px) and (orientation: portrait) {
+    .sim-network-chapter-card {
+        align-content: start;
+        row-gap: 0;
+        padding-bottom: 0.35rem;
+    }
+
+    .sim-network-chapter-card__media {
+        align-self: start;
+        background: transparent;
+        border: none;
+    }
+
+    .sim-network-chapter-card__index {
+        top: -1rem;
+        left: -0.4rem;
+        align-items: center;
+        transform: none;
+    }
+
+    .sim-network-chapter-card__label {
+        margin-top: 0.1rem;
+        font-size: 2rem;
+        line-height: 1;
+    }
+}
+
+/*
+ * Upright tablet: same card as the upright phone.
+ * The card is capped so it does not stretch across the whole tablet.
+ * The strip below 1024px still shows one chapter at a time.
+ */
+@media (min-width: 600px) and (max-width: 1023px) and (orientation: portrait) {
+    .sim-network-chapter-card {
+        --portrait-poster: 100%;
+        width: min(22rem, 100%);
+        margin-inline: auto;
+        align-content: start;
+        row-gap: 0;
+        padding-bottom: 0.35rem;
+    }
+
+    .sim-network-chapter-card__media {
+        align-self: start;
+        background: transparent;
+        border: none;
+    }
+
+    .sim-network-chapter-card__index {
+        top: -1rem;
+        left: -0.4rem;
+        align-items: center;
+        transform: none;
+    }
+
+    .sim-network-chapter-card__label {
+        margin-top: 0.1rem;
+        font-size: 2rem;
+        line-height: 1;
+    }
+}
+
+/*
+ * Sideways tablet (about 1024 by 768): the same stacked phone card.
+ * Each card stays about 20rem wide so two chapters fit, with the third off-screen.
+ * The picture is 14rem so the heading and the steps still fit on a short screen.
+ */
+@media (min-width: 1024px) and (max-height: 900px) {
+    #uiSection-center.sim-network-level-select-content > p {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .sim-network-chapter-card {
+        --portrait-poster: 14rem;
+        display: grid;
+        grid-template-columns: 1fr var(--portrait-poster) 1fr;
+        grid-template-areas:
+            ". media ."
+            "copy copy copy";
+        justify-items: center;
+        align-content: start;
+        row-gap: 0;
+        width: 20rem;
+        padding-bottom: 0.35rem;
+        text-align: center;
+    }
+
+    .sim-network-chapter-card__media {
+        grid-area: media;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        align-self: start;
+        background: transparent;
+        border: none;
+    }
+
+    .sim-network-chapter-card__copy {
+        grid-area: copy;
+        width: 100%;
+    }
+
+    .sim-network-chapter-card__index {
+        top: -1rem;
+        left: -2.4rem;
+        align-items: center;
+        transform: none;
+    }
+
+    .sim-network-chapter-card__label {
+        margin-top: 0.1rem;
+        font-size: 2rem;
+        line-height: 1;
+    }
+}
+
+/*
+ * Tall wide screens (desktop, lg and up). Same stacked phone card.
+ * Each card stays 18rem so all three chapters fit in one row.
+ * A short sideways tablet keeps the two-up size from the rule above.
+ */
+@media (min-width: 1024px) and (min-height: 901px) {
+    .sim-network-chapter-card {
+        --portrait-poster: 100%;
+        display: grid;
+        grid-template-columns: 1fr var(--portrait-poster) 1fr;
+        grid-template-areas:
+            ". media ."
+            "copy copy copy";
+        justify-items: center;
+        align-content: start;
+        row-gap: 0;
+        width: 18rem;
+        padding-bottom: 0.35rem;
+        text-align: center;
+    }
+
+    .sim-network-chapter-card__media {
+        grid-area: media;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        align-self: start;
+        background: transparent;
+        border: none;
+    }
+
+    .sim-network-chapter-card__copy {
+        grid-area: copy;
+        width: 100%;
+    }
+
+    .sim-network-chapter-card__description {
+        min-height: 3lh;
+    }
+
+    .sim-network-chapter-card__index {
+        top: -1rem;
+        left: -0.4rem;
+        align-items: center;
+        transform: none;
+    }
+
+    .sim-network-chapter-card__label {
+        margin-top: 0.1rem;
+        font-size: 2rem;
+        line-height: 1;
+    }
+}
+
+/*
+ * Sideways phone: one short row so the steps line fits under the card.
+ * Number comes from the group sortOrder. Empty media box until image is set.
+ * The padlock covers that box only; the title stays readable.
+ */
+@media (orientation: landscape) and (max-height: 500px) {
+    /* Heading stays at the top. The strip eats the spare height so the picture can grow. */
+    #uiSection-center.sim-network-level-select-content {
+        justify-content: flex-start;
+    }
+
+    #uiSection-center.sim-network-level-select-content > p {
+        flex: 0 0 auto;
+    }
+
+    .sim-network-level-select-lead {
+        margin-bottom: 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .sim-network-level-select-strip-slot {
+        flex: 1 1 auto;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .sim-network-level-select-strip-slot .item-strip {
+        flex: 1 1 auto;
+        width: 100%;
+        height: auto;
+        max-height: none;
+        min-height: 0;
+        padding: 0.15rem 0.25rem;
+        gap: 0.35rem;
+    }
+
+    /* Card row grows. Steps and dots keep their own height under the picture. */
+    .sim-network-level-select-strip-slot .item-strip__row {
+        flex: 1 1 auto;
+        align-items: stretch;
+        min-height: 0;
+        max-height: none;
+    }
+
+    .sim-network-level-select-strip-slot .item-strip__viewport,
+    .sim-network-level-select-strip-slot .item-strip__track,
+    .sim-network-level-select-strip-slot .item-strip__item {
+        height: 100%;
+        max-height: none;
+        min-height: 0;
+    }
+
+    .sim-network-level-select-strip-slot .sim-network-level-steps-clip,
+    .sim-network-level-select-strip-slot .item-strip__dots {
+        flex: 0 0 auto;
+    }
+
+    .sim-network-chapter-card {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr);
+        grid-template-areas: "media copy";
+        align-items: center;
+        justify-items: start;
+        column-gap: 0.6rem;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        padding: 1rem;
+        text-align: left;
+        container-type: size;
+    }
+
+    .sim-network-chapter-card__index {
+        top: -0.5rem;
+        left: -0.25rem;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0rem;
+        transform: translate(-100%, 0);
+    }
+
+    .sim-network-chapter-card__number {
+        display: block;
+        margin: 0;
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .sim-network-chapter-card__label {
+        margin: 0;
+        font-size: 1.25rem;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        margin-top: 0.5rem;
+    }
+
+    .sim-network-chapter-card__media {
+        grid-area: media;
+        display: block;
+        /* Square uses the spare height, and stops before it takes the title's room. */
+        width: min(100cqh, 42cqw);
+        height: min(100cqh, 42cqw);
+        aspect-ratio: 1;
+        justify-self: start;
+        align-self: center;
+        margin-left: 3.25rem;
+        box-sizing: border-box;
+        background: transparent;
+        border: none;
+        overflow: visible;
+    }
+
+    .sim-network-chapter-card__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .sim-network-chapter-card__copy {
+        grid-area: copy;
+        min-width: 0;
+        text-align: left;
+    }
+
+    .sim-network-chapter-card__title {
+        margin: 0 0 0.2rem;
+        font-size: 1.35rem;
+        line-height: 1.15;
+    }
+
+    .sim-network-chapter-card__description {
+        font-size: 0.75rem;
+        line-height: 1.25;
+    }
+
+    .sim-network-chapter-card--locked .sim-network-level-column__lock {
+        position: absolute;
+        inset: 0;
+        width: auto;
+        height: auto;
+        margin: 0;
+    }
+
+    .sim-network-chapter-card--locked .sim-network-level-column__lock-inner {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+    }
+
+    .sim-network-chapter-card--locked .sim-network-level-column__lock svg {
+        width: 75%;
+        height: 75%;
+    }
+}
+
+/* Phone sideways: pull the row in so the card and steps sit between the arrows. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 1023px) {
+    .sim-network-level-select-strip-slot .item-strip {
+        padding-inline: 6.25rem;
+        overflow: visible;
+    }
+
+    .sim-network-level-select-strip-slot .item-strip__prev {
+        left: calc(-5.25rem + 0.2rem);
+    }
+
+    .sim-network-level-select-strip-slot .item-strip__next {
+        right: calc(-5.25rem + 0.2rem);
+    }
+}
+
+/* comingSoon columns: dim content + padlock overlay (buttons stay visible but disabled) */
+.sim-network-level-column--coming-soon .sim-network-level-column__heading,
+.sim-network-level-column--coming-soon .sim-network-level-column__stack {
+    opacity: 0.55;
+}
+
+.sim-network-level-column__lock {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    background: rgba(0,0,0,0.15);
+    margin-top:-10px;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+}
+
+.sim-network-level-column__lock-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.sim-network-level-column__lock svg {
+    width: 6rem;
+    height: 6rem;
+    display: block;
+    opacity:0.5;
+    filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.25));
+}
+
+.sim-network-level-column__lock-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #1f1f1f;
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Steps row sits inside the item strip, between the cards and the page dots.
+   The strip copies the card window’s width onto the clip and the card slide onto the track. */
+#uiSection-center.sim-network-level-select-content {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.sim-network-level-steps-clip {
+    align-self: flex-start;
+    overflow: hidden;
+    max-width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
+}
+
+.sim-network-level-steps-track {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: max-content;
+}
+
+/* Short join across the gap between chapters. Left and width come from the last and next circles. */
+.sim-network-level-steps-slice:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: var(--bridge-left, 100%);
+    width: var(--bridge-width, 0px);
+    height: 4px;
+    background: #0f172a;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.sim-network-level-steps-slice {
+    position: relative;
+    flex: 0 0 auto;
+    min-width: 0;
+    z-index: 1;
+}
+
+.sim-network-level-steps__list {
+    width: 100%;
+    margin: 0;
+    display: grid;
+    overflow: hidden;
+    color: #f8fafc;
+}
+
+/*
+ * Sideways phone: one centered group.
+ * Each column was 4.5rem with a 2rem circle, so the gap was 2.5rem.
+ * The gap is now 5rem (column 7rem). The row sits in the middle of the card.
+ */
+@media (orientation: landscape) and (max-height: 500px) {
+    .sim-network-level-steps__list {
+        width: max-content;
+        margin-inline: auto;
+        grid-auto-columns: 7rem;
+    }
+}
+
+.sim-network-level-step__btn {
+    grid-row: 1 / -1;
+    grid-column: 1;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 3rem 0.25rem 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.sim-network-level-step__btn:disabled {
+    cursor: not-allowed;
+}
+
+/* daisyUI gives each step min-width 4rem, so a chapter with more than four levels overflows its card. */
+.sim-network-level-steps__list .step {
+    color: #f8fafc;
+    min-width: 0;
+}
+
+/* daisyUI’s connector is 8px and runs only from circle to circle. Thin it to match the mockup. */
+.sim-network-level-steps__list .step:before {
+    height: 4px;
+    border-width: 0;
+    background-color: #0f172a;
+    color: #0f172a;
+}
+
+/* One line for phone and tablet. Position comes from the first and last circles. */
+.sim-network-level-steps-screenline {
+    position: absolute;
+    z-index: 0;
+    height: 4px;
+    background: #0f172a;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.sim-network-level-steps-screenline--progress {
+    background: #22c55e;
+}
+
+/*
+ * Phones, upright tablets, and short wide tablets use that one line.
+ * Hide the per-circle connectors and the chapter joins so they do not
+ * draw a second, shorter line. A tall desktop keeps the circle-to-circle line.
+ */
+@media (max-width: 1023px), (min-width: 1024px) and (max-height: 900px) {
+    .sim-network-level-steps__list .step:before,
+    .sim-network-level-steps-slice:not(:last-child)::after {
+        content: none;
+    }
+}
+
+/*
+ * Finished step: green circle, white tick, and a green line up to the current step.
+ * Current step: blue circle with a question mark (step-primary).
+ * A step you cannot play yet: dark circle with a small padlock.
+ * A coming-soon step: same dark circle, with a no symbol instead of the padlock.
+ */
+.sim-network-level-steps__list .sim-network-level-steps__step--complete:before,
+.sim-network-level-steps__list .sim-network-level-steps__step--current:before {
+    background-color: var(--complete, #1F9D55) !important;
+    border-color: var(--complete, #1F9D55) !important;
+}
+
+/* Ping the real circle (the icon span). ::after is turned off once a step has .step-icon. */
+.sim-network-level-steps__list .sim-network-level-steps__step--current > .step-icon {
+    animation: btn-ping 2s ease-out infinite;
+}
+
+/* Hover is on the button, because it covers the circle. scale stacks with the ping's transform. */
+.sim-network-level-steps__list .step > .step-icon {
+    transition: scale 120ms ease;
+}
+
+.sim-network-level-steps__list .step:has(.sim-network-level-step__btn:hover) > .step-icon {
+    scale: 1.2;
+}
+
+.sim-network-level-steps__list .step:has(.step-icon):after {
+    content: none !important;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--complete > .step-icon {
+    background-color: #22c55e !important;
+    border-color: #22c55e !important;
+    color: #fff !important;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--current > .step-icon {
+    color: #fff !important;
+}
+
+.sim-network-level-steps__list .step-icon svg {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--locked:after {
+    content: '' !important;
+    background-color: #1e293b !important;
+    border-color: #1e293b !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Crect x='5' y='11' width='14' height='10' rx='1'/%3E%3Cpath d='M8 11V8a4 4 0 018 0v3'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 0.85rem;
+}
+
+/* Coming-soon steps keep the dark circle. The mark is a circle with one diagonal line. */
+.sim-network-level-steps__list .sim-network-level-steps__step--coming-soon:after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M6.7 6.7 L17.3 17.3'/%3E%3C/svg%3E");
+    background-size: 1.15rem;
+}
+
+#renderCanvas.sim-network-canvas-hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   DIALOGUE (2D + in-game coaching lines)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Dialogue — sim-network overrides (trim what you do not need)
+   Base styles: src/core/ui/dialogue/dialogue.css
+   These load only on this scene via customCss. Edit values, delete unused rules.
+   -------------------------------------------------------------------------- */
+
+#uiContainer-center > .dialogue {
+    pointer-events: none;
+}
+
+.dialogue {
+    position: absolute;
+    z-index: 26;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.dialogue.hidden {
+    display: none !important;
+}
+
+/* 9-slot docks */
+.dialogue--top-left {
+    left: 3rem;
+    top: 3rem;
+    flex-direction: row;
+}
+
+.dialogue--top-center {
+    left: 50%;
+    top: 3rem;
+    transform: translateX(-50%);
+    flex-direction: column;
+}
+
+.dialogue--top-right {
+    right: 3rem;
+    top: 3rem;
+    flex-direction: row-reverse;
+}
+
+.dialogue--center-left {
+    left: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: row;
+}
+
+.dialogue--center {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: row;
+}
+
+.dialogue--center-right {
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: row-reverse;
+}
+
+.dialogue--bottom-left {
+    left: 3rem;
+    bottom: 3rem;
+    flex-direction: row;
+}
+
+.dialogue--bottom-center {
+    left: 50%;
+    bottom: 3rem;
+    transform: translateX(-50%);
+    flex-direction: column;
+}
+
+.dialogue--bottom-right {
+    right: 3rem;
+    bottom: 3rem;
+    flex-direction: row-reverse;
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+    .dialogue--top-left,
+    .dialogue--center-left,
+    .dialogue--bottom-left {
+        left: 1rem;
+    }
+
+    .dialogue--top-right,
+    .dialogue--center-right,
+    .dialogue--bottom-right {
+        right: 1rem;
+    }
+
+    .dialogue--top-left,
+    .dialogue--top-center,
+    .dialogue--top-right {
+        top: 1rem;
+    }
+
+    .dialogue--center-left,
+    .dialogue--center-right,
+    .dialogue--center {
+        top: 30%;
+    }
+
+    .dialogue--bottom-left,
+    .dialogue--bottom-center,
+    .dialogue--bottom-right {
+        bottom: 1rem;
+    }
+
+    .dialogue--look-compact .dialogue__stack {
+        max-width: min(16rem, calc(100% - 5rem));
+    }
+}
+
+/* Slot owns half-out position (must match core dialogue.css — do not put translate on .dialogue__action). */
+.dialogue__action-slot {
+    position: absolute;
+    z-index: 3;
+    right: 0.75rem;
+    bottom: 0;
+    transform: translateY(50%);
+    flex-shrink: 0;
+    pointer-events: auto;
+}
+
+.dialogue__action-slot.hidden {
+    display: none !important;
+    pointer-events: none;
+}
+
+.dialogue__action {
+    pointer-events: auto;
+    color: var(--color-primary-content, #fff);
+}
+
+.dialogue__action.hidden {
+    display: none !important;
+    pointer-events: none;
+}
+
+.dialogue__action svg {
+    color: inherit;
+}
+
+.dialogue__stack {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    transform: translateX(0);
+    opacity: 1;
+    transition:
+        transform 220ms ease,
+        opacity 220ms ease;
+    will-change: transform, opacity;
+    color: var(--color-base-content, #1e293b);
+}
+
+/* Compact — sim-network larger type than core defaults */
+.dialogue--look-compact .dialogue__stack {
+    position: relative;
+    flex-direction: row;
+    max-width: min(20rem, calc(100% - 5rem));
+    padding: 0.75rem 1rem;
+    overflow: visible;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.15);
+}
+
+.dialogue--look-compact .dialogue__panel {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0;
+    padding-bottom: 0.35rem;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.dialogue--look-compact .dialogue__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.35rem;
+}
+
+.dialogue--look-compact .dialogue__body {
+    font-size: 1.15rem;
+    line-height: 1.45;
+    opacity: 0.9;
+    white-space: pre-line;
+}
+
+/* Full — fill most of the player frame; text overlaid on lower band.
+   Cap at 1660px on large/4K screens and center the stage inside the dialogue root. */
+.dialogue.dialogue--look-full {
+    width: min(82%, 1660px);
+    height: 90%;
+    max-width: 1660px;
+    max-height: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogue--look-full .dialogue__stack {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 1660px;
+    max-height: none;
+    margin-inline: auto;
+    padding: 0;
+    gap: 0;
+    overflow: visible;
+    border-radius: 0.5rem;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.dialogue--look-full .dialogue__avatar {
+    width: 75%;
+    height: 100%;
+    max-width: 1660px;
+    margin-inline: auto;
+    border-radius: 0.5rem;
+}
+
+.dialogue--look-full .dialogue__avatar.hidden {
+    display: block !important;
+    background: rgb(15 23 42 / 0.35);
+}
+
+.dialogue--look-full .dialogue__panel {
+    position: absolute;
+    z-index: 1;
+    left: 8%;
+    right: 8%;
+    bottom: 4%;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    padding: 1.35rem 1.6rem;
+    padding-bottom: 1.85rem;
+    border-radius: 0.25rem;
+    background: rgb(220 225 232 / 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.18);
+}
+
+.dialogue--look-full .dialogue__action-slot {
+    bottom: 4%;
+    right: calc(8% + 0.75rem);
+}
+
+.dialogue--look-full .dialogue__title {
+    font-size: clamp(1.55rem, 2.6vh, 2.2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+}
+
+.dialogue--look-full .dialogue__body {
+    font-size: clamp(1.25rem, 2.3vh, 1.7rem);
+    line-height: 1.45;
+    opacity: 0.95;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* Closed / open slide + fade — animate stack so avatar + box move together */
+.dialogue--top-left.is-closed .dialogue__stack,
+.dialogue--center-left.is-closed .dialogue__stack,
+.dialogue--bottom-left.is-closed .dialogue__stack {
+    transform: translateX(calc(-100% - 0.75rem));
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dialogue--top-right.is-closed .dialogue__stack,
+.dialogue--center-right.is-closed .dialogue__stack,
+.dialogue--bottom-right.is-closed .dialogue__stack {
+    transform: translateX(calc(100% + 0.75rem));
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dialogue--top-center.is-closed .dialogue__stack {
+    transform: translateY(calc(-100% - 0.75rem));
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dialogue--bottom-center.is-closed .dialogue__stack {
+    transform: translateY(calc(100% + 0.75rem));
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dialogue--center.is-closed .dialogue__stack {
+    transform: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dialogue.is-open .dialogue__stack {
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dialogue__title {
+    text-shadow: 1px 1px 0px white;
+}
+
+/* ==========================================================================
+   HTML TIMELINE CLIP MOTION
+   ========================================================================== */
+
+/* Phase 5 HTML clip proof — class toggles; CSS owns the motion */
+.html-clip-proof-glow {
+    text-shadow: 0 0 0.65rem rgba(34, 211, 238, 0.85);
+    color: #67e8f9;
+    transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+@keyframes html-clip-fade-up-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.html-clip-anim-fade-up {
+    animation: html-clip-fade-up-in 1s ease-out forwards;
+}
+
+@keyframes html-clip-drop-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(160px);
+    }
+}
+
+.html-clip-anim-drop-out {
+    animation: html-clip-drop-out 2s ease-in-out forwards;
+}
+
+@keyframes html-clip-drop-in {
+    from {
+        opacity: 0;
+        transform: translateY(160px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.html-clip-anim-drop-in {
+    animation: html-clip-drop-in 2s ease-in-out forwards;
+}
+
+
+
+.bord {
+    /* Two opposite “snakes”: same clip animation, second delayed by half the loop. */
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+        pointer-events: none;
+        transition: all 0.5s;
+        animation: clippath 5s infinite linear;
+        border-width: 2px;
+        border-style: solid;
+    }
+
+    &::after {
+        animation-delay: -2s;
+    }
+}
+
+@keyframes clippath {
+    0%,
+    100% {
+        clip-path: inset(0 0 95% 0);
+    }
+
+    25% {
+        clip-path: inset(0 95% 0 0);
+    }
+    50% {
+        clip-path: inset(95% 0 0 0);
+    }
+    75% {
+        clip-path: inset(0 0 0 95%);
+    }
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+  
+  .glow-btn-loop {
+    /* Button Design Styling */
+    width: 240px;
+    height: 65px;
+    background-color: #000;
+    color: #fff;
+    font-family: system-ui, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    
+    /* Required Border Setup */
+    border: 4px solid transparent; 
+    outline: none;
+  
+    /* The Racetrack Gradient Math */
+    border-image-source: conic-gradient(
+      from var(--angle),
+      #fff 0%,
+      #fff 15%,         /* Length of line 1 */
+      transparent 15%,
+      transparent 50%,
+      #fff 50%,
+      #fff 65%,         /* Length of line 2 (directly opposite) */
+      transparent 65%
+    );
+    border-image-slice: 1;
+    
+    /* Trigger the infinite scrolling animation */
+    animation: rotate-border 3s linear infinite;
+  }
+  
+  /* Define the rotation keyframes using our registered @property */
+  @keyframes rotate-border {
+    to {
+      --angle: 360deg;
+    }
+  }
+  
+  /* Optional Hover Effect: Speed it up or change colors when hovered */
+  .glow-btn-loop:hover {
+    animation-duration: 1.5s; /* Speeds up the spin */
+  }
+  
+
+
+
+  .sim-network-intructions-split-card {
+    background: hsl(174deg 82% 34% / 60%);
+    border: 1px solid;
+    border-color: hsl(174deg 82% 34% / 60%);
+  }
+
+  .sim-network-intructions-split-card .badge{
+    position: relative;
+    top: 1rem;
+    width: 3rem;
+    height: 3rem;
+    left: 2.5rem;
+    font-size: 2rem;
+    z-index: 99999;
+    margin-left: -1.5rem;
+    opacity: 0.75;
+  }
+
+  /* Hover zoom on instruction-strip photos only. 1.25 = 25% larger.
+     The media box already clips overflow, so the photo grows inside the frame. */
+  .sim-network-intructions-split-card .split-card__media img {
+    transition: transform 1.5s ease;
+  }
+
+  @media (hover: hover) {
+    .sim-network-intructions-split-card .split-card__media:hover img {
+      transform: scale(1.25);
+    }
+  }
+
+
+
+
+.oldskool,
+.sim-network-2d-surface,
+.dialogue.dialogue--look-full .dialogue__avatar, .dialogue.dialogue--look-full .dialogue__panel,
+.dialogue.dialogue--look-compact .dialogue__stack, .dialogue.dialogue--look-compact .dialogue__avatar,
+.generic-dialog-panel-modal-box,
+.sim-network-test-hud__group, .sim-network-test-hud__device,
+.sim-network-chapter-card.sim-network-chapter--active,
+.sim-network-inspector, .sim-network-inspector-tray  {
+        border-width: 4px;
+        border-style: groove;
+        border-color: rgba(255, 255, 255, 0.85);
+        border-top-width: 6px;
+        border-left-width: 6px;
+        border-radius: 4px;
+}
+
+
+.oldskool-override
+{
+    border-top-width: 0px;
+    border-left-width: 0px;
+}
+
+
+
+button.btn {
+    border-width: 2px;
+    border-style: outset;
+    border-color: rgb(255 255 255 / 40%);
+}
+
+button.btn:hover, button.btn:active {
+    transform: scale(1.05);
+}
+
+button.btn:active {
+ border-style: inset;
+ border-color: rgb(255 255 255 / 70%);
+}
+
+button.btn.btn-ghost {
+    background: rgb(0 0 0 / 13%);
+}
+/* =====================================================================
+   IN-GAME UI · Network test results HUD (Stage 4.3 — boards 7, 8, 29)
+   Player frame only (never document.body / position: fixed):
+     heading → top centre
+     level-actions → top right (Retry/Next + existing HOME)
+     bottom → ‹ card ›
+   ===================================================================== */
+
+/* ---------- Heading ---------- */
+#uiContainer > .sim-network-test-hud__heading {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 6;
+  pointer-events: none;
+  margin: 0;
+  height: 3rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-weight: 700;
+  font-size: 1.375rem;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.85);
+  transition: opacity 250ms ease;
+}
+/* ID rules above set display:flex — .hidden alone loses specificity and Retry "unhides" after fade. */
+#uiContainer > .sim-network-test-hud__heading.hidden { display: none; }
+.sim-network-test-hud__heading.is-fading { opacity: 0; }
+.sim-network-test-hud__dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+/* ui-spec tokens (fixed across themes — board colours). */
+.sim-network-test-hud__dot--failed { background: #ff5861; }
+.sim-network-test-hud__dot--passed { background: #22c55e; }
+.sim-network-test-hud__sep { opacity: 0.6; }
+
+/* ---------- Level actions (top right; HOME relocates into this join) ---------- */
+#uiContainer-header-end > .sim-network-test-hud__level-actions,
+#uiContainer > .sim-network-test-hud__level-actions {
+  position: relative;
+  z-index: 7;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  transition: opacity 250ms ease;
+}
+#uiContainer-header-end > .sim-network-test-hud__level-actions.hidden,
+#uiContainer > .sim-network-test-hud__level-actions.hidden { display: none; }
+.sim-network-test-hud__level-actions.is-fading { opacity: 0; }
+.sim-network-test-hud__level-actions .sim-network-exit-button {
+  margin-left: 0;
+}
+
+/* ---------- Bottom row: ‹ card › ---------- */
+#uiContainer > .sim-network-test-hud__bottom {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 6;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: calc(100% - 2rem);
+  transition: opacity 250ms ease;
+}
+#uiContainer > .sim-network-test-hud__bottom.hidden { display: none; }
+.sim-network-test-hud__bottom.is-fading { opacity: 0; }
+.sim-network-test-hud__bottom > * { pointer-events: auto; }
+
+.sim-network-test-hud__nav-btn { flex: none; }
+.sim-network-test-hud__nav-btn .btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  color: var(--color-base-content);
+}
+.sim-network-test-hud__nav-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+.sim-network-test-hud__device {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  min-width: 20rem;
+  width: max(20rem, max-content);
+  flex-shrink: 0;
+  max-width: min(36rem, calc(100% - 6rem));
+}
+.sim-network-test-hud__device.hidden { display: none; }
+
+.sim-network-test-hud__card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+.sim-network-test-hud__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  flex: 1;
+}
+.sim-network-test-hud__num {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  /* Board 07/08: white digit on the status circle (do not inherit card text colour). */
+  color: #ffffff;
+}
+/* Valid connection: match spatial number badge green. */
+.sim-network-test-hud__num--connected {
+  background: #22c55e;
+  color: #ffffff;
+}
+.sim-network-test-hud__type {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__type svg { width: 1.25rem; height: 1.25rem; }
+.sim-network-test-hud__type--connected {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border-radius: 0.375rem;
+}
+/* Overview header: solid status dot (not a device icon tile). */
+.sim-network-test-hud__type--overview-dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  background: transparent;
+}
+.sim-network-test-hud__type--overview-dot.is-failed { background: #ff5861; }
+.sim-network-test-hud__type--overview-dot.is-passed { background: #22c55e; }
+.sim-network-test-hud__name {
+  font-weight: 600;
+  font-size: 1rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sim-network-test-hud__toggle { flex: none; margin-left: auto; }
+.sim-network-test-hud__toggle-chevron {
+  display: grid;
+  place-items: center;
+}
+.sim-network-test-hud__toggle-chevron svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+}
+
+.sim-network-test-hud__device.is-collapsed .sim-network-test-hud__details {
+  display: none;
+}
+
+.sim-network-test-hud__chain {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  gap: 0;
+}
+/* Divider only while the connection chain is open/visible (Pass A #7 addition). */
+.sim-network-test-hud__chain:not([hidden]) {
+  border-top: 1px solid color-mix(in oklch, var(--color-base-content) 12%, transparent);
+  padding-top: 0.75rem;
+}
+.sim-network-test-hud__hop {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+/* Last hop tint — board 07 fail wash / success cable blue / success WiFi orange */
+.sim-network-test-hud__hop--fail {
+  background: color-mix(in oklch, var(--color-error) 15%, transparent);
+  color: #b91c1c;
+}
+.sim-network-test-hud__hop--cable {
+  background: color-mix(in oklch, #4b6bfb 18%, transparent);
+  color: #4b6bfb;
+}
+.sim-network-test-hud__hop--wifi {
+  background: color-mix(in oklch, #f97316 18%, transparent);
+  color: #f97316;
+}
+.sim-network-test-hud__hop svg { width: 1.25rem; height: 1.25rem; }
+.sim-network-test-hud__link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 0.375rem;
+  flex-shrink: 0;
+}
+/* ui-spec / boards: cable #4b6bfb, WiFi #f97316 */
+.sim-network-test-hud__link--cable { color: #4b6bfb; }
+.sim-network-test-hud__link--wifi { color: #f97316; }
+.sim-network-test-hud__link--break { color: #ff5861; }
+.sim-network-test-hud__line {
+  width: 0.875rem;
+  height: 0;
+  border-top: 2px solid currentColor;
+  background: transparent;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__line--dashed {
+  border-top-style: dashed;
+}
+.sim-network-test-hud__line--dotted {
+  border-top-style: dotted;
+}
+.sim-network-test-hud__link-icon {
+  display: grid;
+  place-items: center;
+  color: inherit;
+}
+.sim-network-test-hud__link-icon svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+}
+.sim-network-test-hud__break {
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+}
+.sim-network-test-hud__break svg { width: 0.75rem; height: 0.75rem; }
+
+.sim-network-test-hud__device svg {
+  fill: none;
+  stroke: currentColor;
+}
+
+.sim-network-test-hud__home-status {
+  display: block;
+  margin: 0;
+  min-height: 0;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  letter-spacing: normal;
+  color: inherit;
+  max-width: 22rem;
+}
+.sim-network-test-hud__home-status:not([hidden]) {
+  border-top: 1px solid color-mix(in oklch, var(--color-base-content) 12%, transparent);
+  padding-top: 0.75rem;
+}
+.sim-network-test-hud__home-message {
+  display: block;
+  white-space: normal;
+}
+
+/* Phone portrait (ui-spec): full-width card, 8px margins, 32px nav, 30px hops, left heading */
+@media (max-width: 767px) and (orientation: portrait) {
+  #uiContainer > .sim-network-test-hud__heading {
+    left: 1rem;                /* 16px */
+    translate: none;
+    font-size: 1.125rem;
+    height: auto;
+  }
+  #uiContainer > .sim-network-test-hud__bottom {
+    left: 0.5rem;              /* 8px */
+    right: 0.5rem;
+    translate: none;
+    max-width: none;
+    width: auto;
+  }
+  .sim-network-test-hud__device {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 20rem;
+    max-width: none;
+  }
+  .sim-network-test-hud__nav-btn .btn {
+    width: 2rem;               /* 32px */
+    height: 2rem;
+    min-height: 2rem;
+  }
+  .sim-network-test-hud__hop {
+    width: 1.875rem;           /* 30px */
+    height: 1.875rem;
+  }
+  /* Home icon-only comes from exit-button compact mode; Retry/Next keep labels. */
+}
+
+@media (max-width: 400px) {
+  .sim-network-test-hud__device { padding: 0.75rem; }
+  .sim-network-test-hud__link { padding: 0 0.25rem; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #uiContainer > .sim-network-test-hud__heading { top: 0.5rem; font-size: 1.125rem; height: 2.5rem; }
+  #uiContainer > .sim-network-test-hud__bottom { bottom: 0.5rem; }
+}
+
+
+/* ==========================================================================
+   Level select restyle (design handover) — colours / borders / shadows / icons
+   Layout (flex/grid/positions of cards, strip, arrows, dots) stays as above.
+   ========================================================================== */
+
+#uiSection-center.sim-network-level-select-content {
+    --lan: #4B6BFB;
+    --lan-light: #A5B5FD;
+    --lan-dark: #26359A;
+    --wifi: #B85D24;
+    --wifi-light: #F3B58A;
+    --wifi-dark: #6B3414;
+    --wifi-line: #D9773A;
+    --wifi-locked: #8C4A26;
+    --wifi-locked-dark: #4F2814;
+    --hybrid: linear-gradient(135deg, var(--lan) 0 50%, var(--wifi) 50% 100%);
+    --hybrid-locked: linear-gradient(135deg, #3A4A9E 0 50%, var(--wifi-locked) 50% 100%);
+    --locked: #22303F;
+    --locked-border: #55708A;
+    --locked-shadow: #0A1118;
+    --current: #1E88E5;
+    --tag-gold: #FFC93C;
+    --complete: #1F9D55;
+    --you-arrow: #E53935;
+}
+
+/* --- Chapter cards: type + state (size/padding/grid unchanged) --- */
+.sim-network-chapter-card {
+    border: 4px solid transparent;
+    box-shadow: none;
+}
+
+.sim-network-chapter-card.sim-network-chapter--active,
+.sim-network-chapter-card.sim-network-chapter--completed,
+.sim-network-chapter-card.sim-network-chapter-card--unlocked,
+.sim-network-chapter-card.sim-network-chapter-card--complete,
+.sim-network-chapter-card.sim-network-chapter-card--locked {
+    border-top-width: 4px;
+    border-left-width: 4px;
+    border-style: solid;
+    border-radius: 0.5rem;
+}
+
+.sim-network-chapter-card--type-lan.sim-network-chapter-card--unlocked,
+.sim-network-chapter-card--type-lan.sim-network-chapter-card--complete {
+    background: var(--lan);
+    border-color: var(--lan-light);
+    box-shadow: 0 10px 0 var(--lan-dark);
+    color: #fff;
+}
+
+.sim-network-chapter-card--type-lan.sim-network-chapter--active {
+    box-shadow: 0 10px 0 var(--lan-dark), 0 0 34px color-mix(in srgb, var(--lan-light) 60%, transparent);
+}
+
+.sim-network-chapter-card--type-wifi.sim-network-chapter-card--unlocked,
+.sim-network-chapter-card--type-wifi.sim-network-chapter-card--complete {
+    background: var(--wifi);
+    border-color: var(--wifi-light);
+    box-shadow: 0 10px 0 var(--wifi-dark);
+    color: #fff;
+}
+
+.sim-network-chapter-card--type-wifi.sim-network-chapter--active {
+    box-shadow: 0 10px 0 var(--wifi-dark), 0 0 34px color-mix(in srgb, var(--wifi-light) 60%, transparent);
+}
+
+.sim-network-chapter-card--type-hybrid.sim-network-chapter-card--unlocked,
+.sim-network-chapter-card--type-hybrid.sim-network-chapter-card--complete {
+    background: var(--hybrid);
+    border-color: #fff;
+    box-shadow: 0 10px 0 var(--lan-dark);
+    color: #fff;
+}
+
+.sim-network-chapter-card--type-hybrid.sim-network-chapter--active {
+    box-shadow: 0 10px 0 var(--lan-dark), 0 0 34px color-mix(in srgb, var(--lan-light) 60%, transparent);
+}
+
+.sim-network-chapter-card--type-lan.sim-network-chapter-card--locked {
+    background: color-mix(in srgb, var(--lan) 55%, #1a2744);
+    border: 4px dashed rgb(255 255 255 / 70%);
+    box-shadow: 0 10px 0 var(--lan-dark);
+}
+
+.sim-network-chapter-card--type-wifi.sim-network-chapter-card--locked {
+    background: var(--wifi-locked);
+    border: 4px dashed rgb(255 255 255 / 70%);
+    box-shadow: 0 10px 0 var(--wifi-locked-dark);
+}
+
+.sim-network-chapter-card--type-hybrid.sim-network-chapter-card--locked {
+    background: var(--hybrid-locked);
+    border: 4px dashed rgb(255 255 255 / 70%);
+    box-shadow: 0 10px 0 var(--wifi-locked-dark);
+}
+
+.sim-network-chapter-card__title {
+    color: #fff;
+}
+
+.sim-network-chapter-card--type-lan .sim-network-chapter-card__description {
+    color: #EEF1FF;
+}
+
+.sim-network-chapter-card--type-wifi .sim-network-chapter-card__description {
+    color: #FFF1E6;
+}
+
+.sim-network-chapter-card--type-wifi.sim-network-chapter-card--locked .sim-network-chapter-card__description {
+    color: #FFEDD5;
+}
+
+.sim-network-chapter-card--type-hybrid .sim-network-chapter-card__description {
+    color: #fff;
+}
+
+.sim-network-chapter-card__number {
+    text-shadow: 0 3px 0 var(--lan-dark);
+}
+
+.sim-network-chapter-card--type-wifi .sim-network-chapter-card__number {
+    text-shadow: 0 3px 0 var(--wifi-dark);
+}
+
+/* Status tag (new) — pinned top-right of the card */
+.sim-network-chapter-card__status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    pointer-events: none;
+}
+
+.sim-network-chapter-card__status-icon {
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
+}
+
+.sim-network-chapter-card__status-icon svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+
+.sim-network-chapter-card__status--unlocked {
+    background: var(--tag-gold);
+    color: #2A1A00;
+    box-shadow: 0 3px 0 #B7791F;
+}
+
+.sim-network-chapter-card__status--complete {
+    background: var(--complete);
+    color: #fff;
+    box-shadow: 0 3px 0 #14663A;
+}
+
+.sim-network-chapter-card__status--locked {
+    background: var(--locked);
+    color: #fff;
+    border: 2px solid var(--locked-border);
+    box-shadow: 0 3px 0 var(--locked-shadow);
+}
+
+/* Unlock hint under padlock (new) — replaces COMING NOV tape */
+.sim-network-chapter-card__unlock-hint {
+    display: inline-block;
+    margin-top: 0.35rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgb(0 0 0 / 45%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.sim-network-level-column__soon-banner {
+    display: none !important;
+}
+
+.sim-network-chapter-card--locked .sim-network-level-column__lock-inner {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.sim-network-chapter-card--locked .sim-network-level-column__lock-inner::before {
+    content: '';
+    position: absolute;
+    inset: 18% 12%;
+    z-index: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(0 0 0 / 55%) 0%, rgb(0 0 0 / 0%) 70%);
+    pointer-events: none;
+}
+
+.sim-network-chapter-card--locked .sim-network-level-column__lock-inner > * {
+    position: relative;
+    z-index: 1;
+}
+
+.sim-network-chapter-card--locked .sim-network-level-column__lock svg {
+    fill: none;
+    stroke: #fff;
+    opacity: 1;
+    color: #fff;
+}
+
+/* --- Level line: chapter-coloured segments (existing connectors, restyled) --- */
+.sim-network-level-steps__list .step:before,
+.sim-network-level-steps-slice:not(:last-child)::after {
+    height: 16px;
+    border: 3px solid #02110F;
+    box-shadow: 0 4px 0 rgb(0 0 0 / 45%);
+    background-color: var(--lan);
+}
+
+.sim-network-level-steps-slice--type-lan .step:before,
+.sim-network-level-steps-slice--type-lan:not(:last-child)::after {
+    background: var(--lan);
+}
+
+.sim-network-level-steps-slice--type-wifi .step:before,
+.sim-network-level-steps-slice--type-wifi:not(:last-child)::after {
+    background: var(--wifi-line);
+}
+
+.sim-network-level-steps-slice--type-hybrid .step:before,
+.sim-network-level-steps-slice--type-hybrid:not(:last-child)::after {
+    background: repeating-linear-gradient(
+        135deg,
+        var(--lan) 0 8px,
+        var(--wifi-line) 8px 16px
+    );
+}
+
+.sim-network-level-steps-slice.sim-network-chapter--locked .step:before,
+.sim-network-level-steps-slice.sim-network-chapter--locked:not(:last-child)::after {
+    opacity: 0.55;
+}
+
+.sim-network-level-steps-slice.sim-network-chapter--active .step:before,
+.sim-network-level-steps-slice.sim-network-chapter--active:not(:last-child)::after {
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--lan-light) 55%, transparent));
+}
+
+.sim-network-level-steps-slice--type-wifi.sim-network-chapter--active .step:before,
+.sim-network-level-steps-slice--type-wifi.sim-network-chapter--active:not(:last-child)::after {
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--wifi-line) 55%, transparent));
+}
+
+/* When every playable level is done, the whole link line turns green. */
+.sim-network-level-steps-track--all-complete .step:before,
+.sim-network-level-steps-track--all-complete .sim-network-level-steps-slice:not(:last-child)::after {
+    background: var(--complete) !important;
+    background-color: var(--complete) !important;
+    opacity: 1;
+    filter: none;
+}
+
+#uiSection-center.sim-network-level-select-content:has(.sim-network-level-steps-track--all-complete) .sim-network-level-steps-screenline,
+#uiSection-center.sim-network-level-select-content:has(.sim-network-level-steps-track--all-complete) .sim-network-level-steps-screenline--progress {
+    background: var(--complete);
+    opacity: 1;
+}
+
+.sim-network-level-steps-screenline {
+    height: 16px;
+    border: 3px solid #02110F;
+    box-shadow: 0 4px 0 rgb(0 0 0 / 45%);
+    background: var(--lan);
+    border-radius: 999px;
+    opacity: 0.6;
+}
+
+.sim-network-level-steps-screenline--progress {
+    background: var(--lan);
+    opacity: 1;
+    border-radius: 999px;
+    height: 16px;
+    border: 3px solid #02110F;
+    box-shadow: 0 4px 0 rgb(0 0 0 / 45%);
+}
+
+/* --- Level nodes (existing circles / labels; look by state) --- */
+.sim-network-level-steps__list .step {
+    position: relative;
+}
+
+.sim-network-level-steps__list .step > .step-icon {
+    width: 49px; /* ~90% again of prior 54px — non-active nodes */
+    height: 49px;
+    border-radius: 999px;
+    border: 4px solid #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.sim-network-level-steps__list .step-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--complete > .step-icon {
+    background: var(--complete) !important;
+    border-color: #fff !important;
+    color: #fff !important;
+    box-shadow: 0 6px 0 #14663A;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--type-wifi.sim-network-level-steps__step--complete > .step-icon,
+.sim-network-level-steps__list .sim-network-level-steps__step--type-hybrid.sim-network-level-steps__step--complete > .step-icon {
+    background: var(--complete) !important;
+    box-shadow: 0 6px 0 #14663A;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--complete:before,
+.sim-network-level-steps__list .sim-network-level-steps__step--current:before {
+    background-color: inherit;
+    border-color: transparent;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--current > .step-icon {
+    width: 76px;
+    height: 76px;
+    border-width: 5px;
+    background: var(--current) !important;
+    border-color: #fff !important;
+    color: #fff !important;
+    box-shadow: 0 7px 0 #0B4F8F;
+    animation: sim-network-level-current-pulse 1.8s ease-out infinite;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--type-hybrid.sim-network-level-steps__step--current > .step-icon {
+    background: var(--hybrid) !important;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--locked > .step-icon {
+    width: 49px;
+    height: 49px;
+    background: var(--locked) !important;
+    border: 4px solid var(--locked-border) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 0 var(--locked-shadow);
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--locked > .step-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.sim-network-level-steps__list .sim-network-level-steps__step--final.sim-network-level-steps__step--locked > .step-icon {
+    width: 52px; /* ~90% of prior 58px */
+    height: 52px;
+}
+
+.sim-network-level-step__btn {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #fff;
+}
+
+.sim-network-level-steps__step--current .sim-network-level-step__btn {
+    position: relative;
+    font-size: 16px;
+    color: #fff;
+    z-index: 2;
+}
+
+@keyframes sim-network-level-current-pulse {
+    0% {
+        box-shadow: 0 7px 0 #0B4F8F, 0 0 0 0 rgba(255, 201, 60, 0.7);
+    }
+    70% {
+        box-shadow: 0 7px 0 #0B4F8F, 0 0 0 22px rgba(255, 201, 60, 0);
+    }
+    100% {
+        box-shadow: 0 7px 0 #0B4F8F, 0 0 0 0 rgba(255, 201, 60, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sim-network-level-steps__list .sim-network-level-steps__step--current > .step-icon {
+        animation: none;
+    }
+
+    .sim-network-level-you {
+        animation: none !important;
+    }
+}
+
+/*
+ * Larger 60/76px nodes were getting sliced by overflow:hidden on the list + clip
+ * (those boxes were sized for the old ~2rem daisyUI circles). Keep horizontal clip
+ * for the carousel; give the row enough height/padding so nodes, labels, YOU and
+ * the flag fit inside the clip box.
+ */
+.sim-network-level-select-strip-slot .sim-network-level-steps-clip {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-top: 3.5rem;
+    padding-bottom: 1.5rem;
+    margin-top: -0.25rem;
+    box-sizing: border-box;
+}
+
+.sim-network-level-select-strip-slot .sim-network-level-steps__list {
+    overflow: visible;
+}
+
+.sim-network-level-select-strip-slot .sim-network-level-steps__list .step {
+    min-height: 7.25rem;
+    overflow: visible;
+}
+
+.sim-network-level-select-strip-slot .sim-network-level-step__btn {
+    padding-top: 5rem;
+}
+
+/* --- YOU marker (new) --- */
+.sim-network-level-you {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    /* Lower than tip-above-node so the up-bob clears the clip edge */
+    transform: translate(-50%, calc(-100% + 5px));
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    pointer-events: none;
+    animation: sim-network-level-you-bob 1.4s ease-in-out infinite;
+}
+
+.sim-network-level-you__pill {
+    background: #fff;
+    color: #053832;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border-radius: 6px;
+    line-height: 1.2;
+}
+
+.sim-network-level-you__arrow {
+    display: block;
+    width: 44px;
+    height: 33px;
+    margin-top: -2px;
+}
+
+.sim-network-level-you__arrow svg {
+    display: block;
+    width: 44px;
+    height: 33px;
+}
+
+@keyframes sim-network-level-you-bob {
+    0%,
+    100% {
+        transform: translate(-50%, calc(-100% + 5px)) translateY(0);
+    }
+    50% {
+        transform: translate(-50%, calc(-100% + 5px)) translateY(8px);
+    }
+}
+
+/* --- Chequered finish flag (new) --- */
+.sim-network-level-flag {
+    position: absolute;
+    left: calc(50% + 18px);
+    top: -40px;
+    z-index: 4;
+    width: 30px;
+    height: 36px;
+    pointer-events: none;
+}
+
+.sim-network-level-flag svg {
+    display: block;
+    width: 30px;
+    height: 36px;
+}
+
+.sim-network-level-flag__pole {
+    fill: #9CC9C1;
+}
+
+.sim-network-level-flag__light {
+    fill: #9CC9C1;
+}
+
+.sim-network-level-flag__dark {
+    fill: #0A302B;
+}
+
+.sim-network-level-steps__step--complete .sim-network-level-flag__pole,
+.sim-network-level-steps__step--complete .sim-network-level-flag__light,
+.sim-network-level-steps__step--current .sim-network-level-flag__pole,
+.sim-network-level-steps__step--current .sim-network-level-flag__light {
+    fill: #fff;
+}
+
+.sim-network-level-steps__step--current.sim-network-level-steps__step--final .sim-network-level-flag {
+    left: calc(50% + 42px);
+}
